@@ -1,0 +1,14 @@
+{
+  "default": {
+    "tolerance": 0.4,
+    "repairable": true,
+    "regrowAfterMs": 10000,
+    "requiresManualApproval": false
+  },
+  "critical": {
+    "tolerance": 0.1,
+    "repairable": false,
+    "regrowAfterMs": 0,
+    "requiresManualApproval": true
+  }
+}
