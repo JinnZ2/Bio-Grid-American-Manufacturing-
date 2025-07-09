@@ -1,0 +1,10 @@
+import { loadKnowledgeNodes } from './api/feeds';
+
+useEffect(() => {
+  const canvas = canvasRef.current;
+  if (!canvas) return;
+
+  loadKnowledgeNodes().then(setKnowledgeNodes);
+
+  // Your ant colony init logic...
+}, []);
