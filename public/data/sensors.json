@@ -1,0 +1,23 @@
+[
+  {
+    "id": "sensor_air_01",
+    "type": "air_quality",
+    "value": 0.87,
+    "location": "Node-3",
+    "timestamp": 1720553478371
+  },
+  {
+    "id": "sensor_temp_07",
+    "type": "temperature",
+    "value": 22.3,
+    "location": "Node-5",
+    "timestamp": 1720553478371
+  },
+  {
+    "id": "sensor_humidity_12",
+    "type": "humidity",
+    "value": 41,
+    "location": "Node-2",
+    "timestamp": 1720553478371
+  }
+]
