@@ -1,0 +1,56 @@
+[
+  {
+    "id": "Node-1",
+    "x": 100,
+    "y": 100,
+    "gps": "45.5122,-122.6587",
+    "zone": "NorthGrid-A",
+    "elevation": 115,
+    "tags": ["urban", "high-traffic"]
+  },
+  {
+    "id": "Node-2",
+    "x": 400,
+    "y": 150,
+    "gps": "45.5138,-122.6712",
+    "zone": "CentralGrid-B",
+    "elevation": 120,
+    "tags": ["industrial", "sensor-heavy"]
+  },
+  {
+    "id": "Node-3",
+    "x": 600,
+    "y": 300,
+    "gps": "45.5173,-122.6755",
+    "zone": "SouthGrid-C",
+    "elevation": 130,
+    "tags": ["residential", "solar"]
+  },
+  {
+    "id": "Node-4",
+    "x": 200,
+    "y": 400,
+    "gps": "45.5141,-122.6600",
+    "zone": "NorthGrid-A",
+    "elevation": 118,
+    "tags": ["forest-edge", "low-traffic"]
+  },
+  {
+    "id": "Node-5",
+    "x": 500,
+    "y": 450,
+    "gps": "45.5167,-122.6690",
+    "zone": "CentralGrid-B",
+    "elevation": 123,
+    "tags": ["mixed", "wind-turbine"]
+  },
+  {
+    "id": "Node-6",
+    "x": 750,
+    "y": 100,
+    "gps": "45.5199,-122.6598",
+    "zone": "OutlierGrid-Z",
+    "elevation": 145,
+    "tags": ["remote", "experimental"]
+  }
+]
