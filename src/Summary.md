@@ -63,3 +63,13 @@ Pull requests welcome. Especially:
 
 License: MIT  
 Owner: ∅ (Public Domain Release)
+
+
+in AntSwarmKnowledge.jsx
+
+import { useSwarmConfig } from './hooks/useSwarmConfig';
+
+const config = useSwarmConfig();
+if (!config) return <p>Loading config...</p>;
+
+// Now use: config.num_ants, config.discovery_radius, etc.
