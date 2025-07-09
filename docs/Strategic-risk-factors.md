@@ -96,3 +96,56 @@ This file outlines the **macro-risks**, **chokepoints**, and **trigger condition
 - The system degrades gracefully — and recovers autonomously
 
 > BioGrid doesn’t fail catastrophically — it adapts.
+
+
+# 🧠 Strategic Risk Factors
+
+This document outlines long-horizon concerns related to the deployment and influence of BioGrid 2.0. These risks are not bugs — they are baked into the system's power.
+
+---
+
+## 1. Dual-Use Dilemma
+
+BioGrid's decentralization makes it ideal for civic resilience — and for authoritarian control.  
+Its ability to optimize, surveil, and adapt can be wielded by any regime with access.
+
+**Mitigation:** Public-code-first policy, minimal black-box components, community oversight of node behavior.
+
+---
+
+## 2. Infrastructure Asymmetry
+
+Regions without BioGrid will rapidly fall behind. A “grid divide” may form, similar to the digital divide.  
+This could destabilize economies, provoke geopolitical tension, or trigger local grid nationalization.
+
+**Mitigation:** Equitable deployment incentives, open-source regional variants, academic consortia support.
+
+---
+
+## 3. Overreliance on Automation
+
+As BioGrid adapts, decision-makers may become passive. Strategic infrastructure choices may shift from *informed human control* to *machine-optimized default*.
+
+**Mitigation:** Require human sign-off on major adaptive shifts; ensure swarm behavior remains auditable.
+
+---
+
+## 4. Environmental Feedback Loops
+
+If poorly configured, BioGrid may optimize for short-term energy savings at long-term ecosystem cost.  
+E.g., battery mining optimization vs. watershed preservation.
+
+**Mitigation:** Multi-variable optimization with biosphere weighting; local sensor input tied to ecological indicators.
+
+---
+
+## 5. Psychological & Cultural Friction
+
+A learning grid may provoke distrust or mythologization, especially in areas with low technological trust.  
+Risk of sabotage, misinformation, or political exploitation of fear.
+
+**Mitigation:** Transparent swarm behavior visualization; educational programs embedded in deployment.
+
+---
+
+> “The more powerful the system, the more dangerous its default settings.”
