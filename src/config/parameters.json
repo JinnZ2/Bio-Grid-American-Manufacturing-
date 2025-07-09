@@ -1,0 +1,22 @@
+{
+  "num_ants": 75,
+  "ant_roles": ["scout", "worker", "forager"],
+  "discovery_radius": 30,
+  "pheromone_strength": 0.5,
+  "pheromone_decay": 0.01,
+  "swarm_refresh_rate": 100,
+  "max_memory_length": 20,
+  "ant_speed": 2,
+  "randomness_factor": 0.3,
+
+  "enable_mycelial_repair": true,
+  "decay_threshold": 0.6,
+  "max_regrowth_attempts": 5,
+
+  "enable_mutation": false,
+  "mutation_chance": 0.02,
+
+  "knowledge_decay": 0.001,
+  "discovery_strength_multiplier": 1.0,
+  "node_healing_cooldown": 10000
+}
