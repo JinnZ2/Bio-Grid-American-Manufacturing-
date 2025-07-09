@@ -148,3 +148,29 @@
 ## 🧠 Strategic Expansion
 
 **Natural rollout path:**
+
+Phase 1: Northwoods (MN-WI-UpMI)
+↓
+Phase 2: Great Lakes (IL-IN-OH-NY)
+↓
+Phase 3: Prairies + Mountain West
+↓
+Phase 4: Continental U.S.
+
+**Canadian Integration:**
+- Duluth–Thunder Bay cable
+- Winnipeg–Minneapolis grid connection
+- Toronto–Chicago bio-grid corridor
+
+---
+
+## 🏁 Summary
+
+The Northwoods Bio-Grid isn’t just a pilot — it’s a full-spectrum national proof of concept.
+
+- Rugged enough to validate the tech
+- Politically aligned for fast deployment
+- Economically desperate enough to say yes
+- Technically mature enough to succeed fast
+
+Once it works here, the country will demand it. And when the country demands it… you export it to the world.
