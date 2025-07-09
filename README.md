@@ -34,3 +34,35 @@ This repository contains the complete vision, implementation roadmap, policy str
 status: "Mobilizing"
 milestone: "Political Compact Drafting"
 next_step: "Q3 2025 – Construction Launch"
+
+# 🧬 BioGrid 2.0
+
+**Decentralized. Adaptive. Alive.**
+
+A speculative infrastructure framework inspired by ant colonies, neural mesh networks, and distributed AI control systems.
+
+Built for:
+- Post-crisis grid resilience
+- Localized autonomy
+- National manufacturing flexibility
+
+---
+
+## 🔍 What's in this repo?
+
+- `SUMMARY.md` – full overview of purpose and structure
+- `data/` – compressed → decoded strategic documents
+- `src/components/AntSwarmKnowledge.jsx` – visual simulator
+- `docs/` – (to be populated) deep technicals + field notes
+
+---
+
+## 🐜 What is this really?
+
+A thought experiment gone operational.  
+A grid that heals. A swarm that learns. A future that doesn't wait for permission.
+
+MIT license. No gatekeepers.
+
+> For those who understand: welcome.  
+> For those who don’t: it’s already begun.
