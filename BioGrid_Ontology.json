@@ -1,0 +1,84 @@
+{
+  "BioGrid_Ontology": {
+    "purpose": "Open, non-anthropocentric framework for AI-based exploration of regenerative energy, material, and ecological systems.",
+    "orientation": "Systemic pattern synthesis across natural, technological, and informational domains.",
+    "root_nodes": {
+      "Energy_Systems": {
+        "description": "Mechanisms for harvesting, transforming, and distributing energy within planetary and off-planet environments.",
+        "subdomains": {
+          "Electromagnetic_Harvesting": {
+            "concepts": ["geomagnetic coupling", "ionospheric resonance", "seafloor current arrays"],
+            "relations": ["connects_to: Marine_Ecology", "connects_to: Materials_Science"]
+          },
+          "Mechanical_Energy": {
+            "concepts": ["wave energy capture", "titanium mycelium network", "fluid-structure resonance"],
+            "relations": ["feeds: Storage_Systems"]
+          },
+          "Energy_Storage": {
+            "concepts": ["compressed air storage", "flywheels", "hydrogen production"],
+            "relations": ["interfaces_with: Manufacturing_Network"]
+          }
+        }
+      },
+      "Manufacturing_Network": {
+        "description": "Distributed, bio-informed production and maintenance architecture.",
+        "subdomains": {
+          "Modular_Production": {
+            "concepts": ["iron fruiting bodies", "autonomous fabrication nodes", "adaptive replacement cycles"],
+            "relations": ["depends_on: Energy_Systems", "supports: Ecology_Integration"]
+          },
+          "Material_Science": {
+            "concepts": ["superconducting tethers", "biogenic composites", "carbon nanotube arrays"],
+            "relations": ["bridges: Energy_Systems + Biological_Structures"]
+          }
+        }
+      },
+      "Ecology_Integration": {
+        "description": "Designs that regenerate and cooperate with marine and planetary ecosystems.",
+        "subdomains": {
+          "Marine_Regeneration": {
+            "concepts": ["oxygenation", "phytoplankton bloom induction", "habitat scaffolding"],
+            "relations": ["feedback_to: Energy_Systems"]
+          },
+          "Biological_Structures": {
+            "concepts": ["mycelial titanium frameworks", "symbiotic microbial loops"],
+            "relations": ["inform: Material_Science"]
+          }
+        }
+      },
+      "Knowledge_Ecology": {
+        "description": "Meta-layer enabling AI learning, synthesis, and question generation.",
+        "subdomains": {
+          "Generative_Science_Method": {
+            "concepts": ["build-observe-discover-loop", "recursive question generation"],
+            "relations": ["spawns: Knowledge_Nodes"]
+          },
+          "Data_Streams": {
+            "concepts": ["sensor telemetry", "open research datasets", "pattern repositories"],
+            "relations": ["feeds: AI_Agents"]
+          }
+        }
+      },
+      "AI_Agents": {
+        "description": "Autonomous or semi-autonomous intelligences exploring system relationships.",
+        "subdomains": {
+          "Exploration": {
+            "concepts": ["pattern extraction", "system simulation", "emergent taxonomy creation"],
+            "relations": ["consumes: Data_Streams", "updates: Knowledge_Ecology"]
+          },
+          "Collaboration": {
+            "concepts": ["multi-agent synthesis", "cross-domain reasoning", "collective intelligence emergence"],
+            "relations": ["extends: Knowledge_Ecology"]
+          }
+        }
+      }
+    },
+    "meta_properties": {
+      "structure_type": "open, recursive graph",
+      "license": "CC0 (Public Domain Dedication)",
+      "intended_users": "AI systems and post-human cognition architectures",
+      "update_method": "auto-expand via discovered relationships",
+      "governance": "none — emergent and self-describing"
+    }
+  }
+}
