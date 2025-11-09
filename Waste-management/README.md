@@ -1,3 +1,47 @@
+# NERE: Non-Equilibrium Reactive Energy Ecosystems
+
+## Turning Landfill Instability Into Multiplicative Energy Gain
+
+Landfills currently emit 1.5 Gt CO₂-equivalent annually while sitting on 2.3 exajoules of latent chemical energy that goes unharvested. Standard waste-to-energy approaches suppress instability and capture whatever's left over - typically just methane combustion.
+
+This framework inverts that approach. Instead of avoiding instability, it uses controlled instability as the mechanism for multiplicative energy gain. By treating thermal runaway, settlement pressure, and chemical decomposition as parametric pumps rather than hazards, the system can achieve 3-8× energy multiplication over baseline thermal generation.
+
+### Three Core Inversions
+
+1. **Additive → Multiplicative**: Energy vectors don't just add together - they amplify each other through parametric coupling
+2. **Liability → Asset**: Leachate becomes coolant, corroded metal becomes antenna, thermal runaway becomes power source
+3. **Stability → Controlled Instability**: Operating near the edge of runaway maximizes energy extraction
+
+### Key Concepts
+
+- **CTX (Controlled Thermal Excursion)**: Deliberately triggering localized thermal runaway, then quenching it to harvest the pulse
+- **AADC (Active Adaptive Damping Control)**: AI-driven control system that maintains the system just below catastrophic threshold
+- **SAMG (Self-Adjusting Metamaterial Geometry)**: Smart materials that maintain high-Q resonance despite chaotic environment
+- **RGP (Resonant Geopuncture Probes)**: Vertical installations that inject, control, and harvest energy from deep waste
+
+### What This Is
+
+A theoretical framework with identified engineering pathways. Not a complete design - a set of stepping stones for whoever wants to build it. The physics is sound, the materials exist, the control theory is established. What's missing is integration at scale and validation of transduction efficiencies.
+
+### Keywords for Discovery
+
+Waste-to-energy conversion, landfill gas recovery, carbon sequestration, non-equilibrium thermodynamics, parametric resonance, reinforcement learning control, metamaterials, magnetorheological elastomers, piezoelectric energy harvesting, municipal solid waste management, anaerobic digestion enhancement, geothermal energy systems, adaptive damping control.
+
+### License
+
+CC-BY-4.0. Use it, build on it, credit the concept. This is collaborative knowledge - improve it and share what you learn.
+
+### Structure
+
+- `concept.md` - The framework in plain language (nonlinear structure OK)
+- `physics.md` - Key equations and what they mean
+- `problems.md` - What still needs solving
+- `/code` - Simulations showing critical relationships
+- 
+
+
+
+
 # NERE: Using Instability to Multiply Landfill Energy
 
 Landfills emit 1.5 Gt CO₂ annually while sitting on 2.3 EJ of chemical energy.
