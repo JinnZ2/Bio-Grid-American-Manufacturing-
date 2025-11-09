@@ -39,7 +39,26 @@ CC-BY-4.0. Use it, build on it, credit the concept. This is collaborative knowle
 - `/code` - Simulations showing critical relationships
 - 
 
+### Important Ethical Note
 
+This framework does NOT valorize waste production. Waste generation is a failure of design, materials selection, and economic systems. The ideal amount of waste is zero.
+
+NERE addresses the reality that:
+- Billions of tons of waste already exist
+- That waste will persist for 50-100+ years regardless
+- Current approaches leave 80%+ of latent energy unharvested
+- Methane release continues causing climate damage
+
+**The goal**: Extract maximum value from waste that already exists while accelerating remediation and closure. Not to make waste generation economically attractive.
+
+**The distinction**: This is recuperative (cleaning up past mistakes) not extractive (creating new problems for profit).
+
+A successful NERE deployment should make landfills economically obsolete faster by:
+- Demonstrating the true cost of waste (energy we're leaving buried)
+- Funding faster site closure and remediation
+- Creating economic pressure for circular design (because burying valuable energy becomes obviously wasteful)
+
+The framework exists because we've already made the mess. It shouldn't be used to justify making more.
 
 
 # NERE: Using Instability to Multiply Landfill Energy
