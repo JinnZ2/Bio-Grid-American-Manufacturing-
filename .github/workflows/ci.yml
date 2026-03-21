@@ -34,6 +34,14 @@ jobs:
       - name: Run tests
         run: npm test -- --coverage
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Python model tests
+        run: python models/test_eta_sensitivity.py
+
   lint:
     runs-on: ubuntu-latest
     steps:

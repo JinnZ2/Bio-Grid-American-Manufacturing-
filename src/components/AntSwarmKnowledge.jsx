@@ -7,7 +7,7 @@ const AntSwarmKnowledge = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [ants, setAnts] = useState([]);
   const [knowledgeNodes, setKnowledgeNodes] = useState([]);
-  const [discoveries, setDiscoveries] = useState([]);
+  const [discoveries, setDiscoveries] = useState([]); // eslint-disable-line no-unused-vars
   const [swarmIntelligence, setSwarmIntelligence] = useState({
     totalPaths: 0,
     efficiency: 0,
