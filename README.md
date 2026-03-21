@@ -53,19 +53,32 @@ This region offers ideal conditions for piloting:
 
 ```
 biogrid-2.0/
-├── 📊 docs/
-│   ├── Implementation_Timeline.md
-│   ├── Northwoods_Bridge_Strategy.md
-│   ├── Political_Coalition_Strategy.md
-│   └── International_Export_Strategy.md
-├── 🔧 src/
-│   ├── components/AntSwarmKnowledge.jsx  # Visual simulator
-│   └── models/                           # System modeling
-├── 🧪 data/
-│   ├── biogrid_specs.json               # Programmatic configuration
-│   └── compressed_hex_codes.txt          # Regenerative seed logic
-└── 🌍 examples/
-    └── community_node_blueprint.md       # Local node implementation
+├── src/                              # Application code
+│   ├── components/                   # React UI (AntSwarmKnowledge, LiveStatusPanel)
+│   ├── logic/                        # Core algorithms (mycelial regrowth)
+│   ├── adapters/                     # Data integration (sensor adapter)
+│   ├── api/                          # Data feeds with fallback strategies
+│   ├── hooks/                        # React hooks (useSwarmConfig)
+│   ├── config/                       # JSON configuration (parameters, nodes, geo)
+│   ├── technical/                    # Blueprint JS modules (core, network, integration)
+│   └── __tests__/                    # Jest unit tests
+├── docs/                             # Documentation
+│   ├── architecture/                 # Technical specs, equations, system design
+│   ├── strategy/                     # Roadmap, timelines, deployment plans
+│   ├── feasibility/                  # Regional feasibility & economic analysis
+│   ├── risk/                         # Risk assessments
+│   ├── reference/                    # Summaries, use cases, matrices
+│   └── blueprint/                    # Compressed/seed reconstruction docs
+├── domains/                          # Domain-specific research
+│   ├── amoc/                         # AMOC transition systems
+│   ├── desertification/              # Desert energy & engineering
+│   ├── electromagnetic-energy/       # EM harvesting (forest, ocean platforms)
+│   ├── energy/                       # Energy systems & AI
+│   ├── waste-management/             # Waste-to-energy, microplastics
+│   └── regional/                     # Regional bio-grid (infrastructure, manufacturing)
+├── models/                           # Python simulations (ant colony, expansion)
+├── bin/                              # Build & utility scripts
+└── public/                           # Static assets (dashboard)
 ```
 
 ---

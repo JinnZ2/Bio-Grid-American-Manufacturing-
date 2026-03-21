@@ -9,7 +9,7 @@ export function growMycelialLink(failedNode, neighbors, decayMap, attempts = 3) 
   if (!failedNode || !Array.isArray(neighbors)) return null;
 
   let viableNodes = neighbors
-    .filter(n => !decayMap.has(n.id) && n.healable)
+    .filter((n) => !decayMap.has(n.id) && n.healable)
     .sort((a, b) => b.signalStrength - a.signalStrength);
 
   let regrowthLinks = [];
@@ -21,7 +21,7 @@ export function growMycelialLink(failedNode, neighbors, decayMap, attempts = 3) 
       to: candidate.id,
       strength: Math.min(failedNode.strength, candidate.strength) * 0.7,
       type: 'mycelial-link',
-      establishedAt: Date.now()
+      establishedAt: Date.now(),
     });
   }
 

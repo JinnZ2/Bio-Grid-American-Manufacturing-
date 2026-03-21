@@ -12,7 +12,7 @@ const AntSwarmKnowledge = () => {
     totalPaths: 0,
     efficiency: 0,
     knowledge: 0,
-    convergence: 0
+    convergence: 0,
   });
 
   // Initialize knowledge landscape
@@ -20,7 +20,7 @@ const AntSwarmKnowledge = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-        const width = canvas.width;
+    const width = canvas.width;
     const height = canvas.height;
 
     const nodes = [
@@ -42,25 +42,25 @@ const AntSwarmKnowledge = () => {
       energy: 100,
       memory: [],
       role: ['scout', 'worker', 'forager'][Math.floor(Math.random() * 3)],
-      knowledge: 0
+      knowledge: 0,
     }));
 
     setKnowledgeNodes(nodes);
     setAnts(antColony);
   }, []);
 
-    // Ant movement and behavior logic
+  // Ant movement and behavior logic
   const updateSwarm = () => {
     if (!isRunning) return;
 
-    setAnts(prevAnts => {
-      const newAnts = prevAnts.map(ant => {
+    setAnts((prevAnts) => {
+      const newAnts = prevAnts.map((ant) => {
         let newAnt = { ...ant };
 
         let nearestNode = null;
         let minDistance = Infinity;
 
-        knowledgeNodes.forEach(node => {
+        knowledgeNodes.forEach((node) => {
           const dist = Math.sqrt((ant.x - node.x) ** 2 + (ant.y - node.y) ** 2);
           if (dist < minDistance && !node.discovered) {
             minDistance = dist;
@@ -71,18 +71,21 @@ const AntSwarmKnowledge = () => {
         if (nearestNode && minDistance < 30) {
           if (!nearestNode.discovered) {
             nearestNode.discovered = true;
-            setDiscoveries(prev => [...prev, {
-              node: nearestNode,
-              discoverer: ant.id,
-              time: Date.now(),
-              role: ant.role
-            }]);
+            setDiscoveries((prev) => [
+              ...prev,
+              {
+                node: nearestNode,
+                discoverer: ant.id,
+                time: Date.now(),
+                role: ant.role,
+              },
+            ]);
             newAnt.knowledge += nearestNode.strength;
             newAnt.carrying = nearestNode.value;
           }
         }
 
-          if (nearestNode) {
+        if (nearestNode) {
           const dx = nearestNode.x - ant.x;
           const dy = nearestNode.y - ant.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
@@ -114,17 +117,17 @@ const AntSwarmKnowledge = () => {
     });
 
     const totalKnowledge = ants.reduce((sum, ant) => sum + ant.knowledge, 0);
-    const discoveredNodes = knowledgeNodes.filter(n => n.discovered).length;
+    const discoveredNodes = knowledgeNodes.filter((n) => n.discovered).length;
 
     setSwarmIntelligence({
       totalPaths: ants.reduce((sum, ant) => sum + ant.memory.length, 0),
       efficiency: Math.min(100, (discoveredNodes / knowledgeNodes.length) * 100),
       knowledge: totalKnowledge,
-      convergence: Math.min(100, (discoveries.length / knowledgeNodes.length) * 100)
+      convergence: Math.min(100, (discoveries.length / knowledgeNodes.length) * 100),
     });
   };
 
-    // Canvas rendering
+  // Canvas rendering
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -132,7 +135,7 @@ const AntSwarmKnowledge = () => {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ants.forEach(ant => {
+    ants.forEach((ant) => {
       if (ant.memory.length > 1) {
         ctx.strokeStyle = `rgba(255, 165, 0, ${ant.knowledge / 100})`;
         ctx.lineWidth = 1;
@@ -145,10 +148,10 @@ const AntSwarmKnowledge = () => {
       }
     });
 
-    knowledgeNodes.forEach(node => {
+    knowledgeNodes.forEach((node) => {
       ctx.fillStyle = node.discovered ? '#10B981' : '#3B82F6';
       ctx.beginPath();
-      ctx.arc(node.x, node.y, 15 + (node.strength * 2), 0, 2 * Math.PI);
+      ctx.arc(node.x, node.y, 15 + node.strength * 2, 0, 2 * Math.PI);
       ctx.fill();
 
       ctx.fillStyle = 'white';
@@ -157,10 +160,14 @@ const AntSwarmKnowledge = () => {
       ctx.fillText(node.value.substring(0, 8), node.x, node.y + 3);
     });
 
-    ants.forEach(ant => {
-      ctx.fillStyle = ant.carrying ? '#EF4444' :
-                      ant.role === 'scout' ? '#8B5CF6' :
-                      ant.role === 'worker' ? '#F59E0B' : '#06B6D4';
+    ants.forEach((ant) => {
+      ctx.fillStyle = ant.carrying
+        ? '#EF4444'
+        : ant.role === 'scout'
+          ? '#8B5CF6'
+          : ant.role === 'worker'
+            ? '#F59E0B'
+            : '#06B6D4';
       ctx.beginPath();
       ctx.arc(ant.x, ant.y, ant.knowledge > 0 ? 4 : 2, 0, 2 * Math.PI);
       ctx.fill();
@@ -186,7 +193,9 @@ const AntSwarmKnowledge = () => {
 
   return (
     <div className="p-4 bg-white shadow rounded">
-      <h2 className="font-bold text-lg mb-2 flex items-center gap-2"><Network /> Ant Swarm Knowledge</h2>
+      <h2 className="font-bold text-lg mb-2 flex items-center gap-2">
+        <Network /> Ant Swarm Knowledge
+      </h2>
       <div className="flex gap-2 mb-3">
         <button
           onClick={() => setIsRunning(!isRunning)}
@@ -198,24 +207,27 @@ const AntSwarmKnowledge = () => {
           onClick={() => {
             setIsRunning(false);
             setDiscoveries([]);
-            setKnowledgeNodes(prev => prev.map(n => ({ ...n, discovered: false })));
+            setKnowledgeNodes((prev) => prev.map((n) => ({ ...n, discovered: false })));
           }}
           className="px-4 py-2 bg-gray-600 text-white rounded"
         >
           🔄 Reset
         </button>
       </div>
-      <canvas
-        ref={canvasRef}
-        width={800}
-        height={500}
-        className="w-full bg-black rounded"
-      />
+      <canvas ref={canvasRef} width={800} height={500} className="w-full bg-black rounded" />
       <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
-        <div>Total Paths: <strong>{swarmIntelligence.totalPaths}</strong></div>
-        <div>Efficiency: <strong>{swarmIntelligence.efficiency.toFixed(1)}%</strong></div>
-        <div>Knowledge: <strong>{swarmIntelligence.knowledge}</strong></div>
-        <div>Convergence: <strong>{swarmIntelligence.convergence.toFixed(1)}%</strong></div>
+        <div>
+          Total Paths: <strong>{swarmIntelligence.totalPaths}</strong>
+        </div>
+        <div>
+          Efficiency: <strong>{swarmIntelligence.efficiency.toFixed(1)}%</strong>
+        </div>
+        <div>
+          Knowledge: <strong>{swarmIntelligence.knowledge}</strong>
+        </div>
+        <div>
+          Convergence: <strong>{swarmIntelligence.convergence.toFixed(1)}%</strong>
+        </div>
       </div>
     </div>
   );

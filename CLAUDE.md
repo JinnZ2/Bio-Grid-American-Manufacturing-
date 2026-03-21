@@ -14,18 +14,27 @@ src/
   logic/              # Core algorithms (mycelialGrowth.js - self-healing network regrowth)
   adapters/           # Data integration (sensorAdapter.js)
   api/                # Data feeds with fallback strategies (feeds.js)
-  config/             # JSON/YAML configuration (parameters.json, knowledge_nodes.json, geo_map.json)
-  src/hooks/          # React hooks (useSwarmConfig.js)
+  hooks/              # React hooks (useSwarmConfig.js)
+  config/             # JSON configuration (parameters.json, knowledge_nodes.json, geo_map.json)
+  technical/          # Blueprint JS modules (blueprint-core.js, mycelial-network.js, system-integration.js)
   __tests__/          # Jest unit tests
-  BioGridTechnicalImplementation.js   # Technical specs (documentation-style JS)
-  Recovery-blowback-mitigation.js     # Recovery mechanisms (documentation-style JS)
-docs/                 # Technical documentation, timelines, Python models
-Regional-bio-grid/    # Regional implementation specs (Infrastructure/, Manufacturing/)
-Energy/               # Energy domain specs
-data/                 # Compressed data, specs
+docs/
+  architecture/       # Technical specs, equations, system design
+  strategy/           # Roadmap, timelines, deployment plans
+  feasibility/        # Regional feasibility & economic analysis
+  risk/               # Risk assessments
+  reference/          # Summaries, use cases, implementation matrix
+  blueprint/          # Compressed/seed reconstruction docs
+domains/
+  amoc/               # AMOC transition systems
+  desertification/    # Desert energy & engineering
+  electromagnetic-energy/  # EM harvesting platforms
+  energy/             # Energy systems & AI
+  waste-management/   # Waste-to-energy, microplastics
+  regional/           # Regional bio-grid (infrastructure, manufacturing, dual-system)
+models/               # Python simulations (ant colony, expansion, sensitivity)
 bin/                  # Build/utility scripts (generate_report.js)
 public/               # Static assets (dashboard.html)
-technical/            # Blueprint and integration specs (JS)
 BioGrid_Ontology.json # Machine-readable ontology (CC0)
 ```
 
@@ -133,11 +142,11 @@ From `CONTRIBUTING.md`:
 
 1. `README.md` - Project overview and vision
 2. `Meta-README.md` - Design philosophy
-3. `docs/Implementation_Timeline.md` - 2025-2040 deployment roadmap
-4. `docs/Northwoods_Bridge_Strategy.md` - Pilot implementation
+3. `docs/strategy/implementation-timeline.md` - 2025-2040 deployment roadmap
+4. `docs/strategy/northwoods-bridge-strategy.md` - Pilot implementation
 5. `BioGrid_Ontology.json` - Conceptual framework
-6. `Technical-equations.md` - Mathematical foundations
-7. `docs/implementation_matrix.yaml` - System dependencies
+6. `docs/architecture/technical-equations.md` - Mathematical foundations
+7. `docs/reference/implementation-matrix.yaml` - System dependencies
 
 ## Deployment
 

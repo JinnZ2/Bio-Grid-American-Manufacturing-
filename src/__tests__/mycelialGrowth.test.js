@@ -29,7 +29,7 @@ describe('growMycelialLink', () => {
   });
 
   it('should return empty array if no viable neighbors', () => {
-    const deadMap = new Map(neighbors.map(n => [n.id, true]));
+    const deadMap = new Map(neighbors.map((n) => [n.id, true]));
     const links = growMycelialLink(failedNode, neighbors, deadMap, 3);
     expect(links).toEqual([]);
   });
