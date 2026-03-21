@@ -1,6 +1,6 @@
 // __tests__/mycelialGrowth.test.js
 
-import { growMycelialLink } from '../src/logic/mycelialGrowth';
+import { growMycelialLink } from '../logic/mycelialGrowth';
 
 describe('growMycelialLink', () => {
   const failedNode = {
@@ -9,10 +9,10 @@ describe('growMycelialLink', () => {
   };
 
   const neighbors = [
-    { id: 'n1', signalStrength: 5, healable: true },
-    { id: 'n2', signalStrength: 7, healable: false },
-    { id: 'n3', signalStrength: 9, healable: true },
-    { id: 'n4', signalStrength: 6, healable: true },
+    { id: 'n1', signalStrength: 5, strength: 5, healable: true },
+    { id: 'n2', signalStrength: 7, strength: 7, healable: false },
+    { id: 'n3', signalStrength: 9, strength: 9, healable: true },
+    { id: 'n4', signalStrength: 6, strength: 6, healable: true },
   ];
 
   const decayMap = new Map();

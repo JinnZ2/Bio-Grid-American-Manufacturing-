@@ -27,22 +27,3 @@ export function growMycelialLink(failedNode, neighbors, decayMap, attempts = 3) 
 
   return regrowthLinks;
 }
-
-
-### 
-Example Usage:
-
-Drop this into your swarm update cycle or failover handler:
-
-import { growMycelialLink } from './logic/mycelialGrowth';
-
-const regrowth = growMycelialLink(failedNode, nearbyNodes, decayMap, 5);
-if (regrowth && regrowth.length > 0) {
-  // Store these in your pheromone trail system or route planner
-  setMycelialLinks(prev => [...prev, ...regrowth]);
-}
-
-Visualizing (optional)
-	•	Use dotted purple lines for type === 'mycelial-link'
-	•	Decay them if unused over time
-	•	Reinforce if ants adopt the route ###

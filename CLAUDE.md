@@ -15,37 +15,61 @@ src/
   adapters/           # Data integration (sensorAdapter.js)
   api/                # Data feeds with fallback strategies (feeds.js)
   config/             # JSON/YAML configuration (parameters.json, knowledge_nodes.json, geo_map.json)
+  src/hooks/          # React hooks (useSwarmConfig.js)
   __tests__/          # Jest unit tests
-  BioGridTechnicalImplementation.js   # Main implementation class
-  Recovery-blowback-mitigation.js     # Recovery mechanisms
+  BioGridTechnicalImplementation.js   # Technical specs (documentation-style JS)
+  Recovery-blowback-mitigation.js     # Recovery mechanisms (documentation-style JS)
 docs/                 # Technical documentation, timelines, Python models
 Regional-bio-grid/    # Regional implementation specs (Infrastructure/, Manufacturing/)
 Energy/               # Energy domain specs
-data/                 # Compressed data, specs, physarum-network-optimizer.js
+data/                 # Compressed data, specs
 bin/                  # Build/utility scripts (generate_report.js)
 public/               # Static assets (dashboard.html)
+technical/            # Blueprint and integration specs (JS)
 BioGrid_Ontology.json # Machine-readable ontology (CC0)
 ```
 
 ## Tech Stack
 
-- **Frontend:** React, Canvas API, Lucide-react icons
+- **Frontend:** React 18, Canvas API, Lucide-react icons
 - **Language:** JavaScript ES6+ (Node.js)
-- **Testing:** Jest
+- **Build:** Babel (`@babel/preset-env`, `@babel/preset-react`)
+- **Testing:** Jest 29 + jsdom environment
+- **Linting:** ESLint 8 (eslint-plugin-react, eslint-plugin-react-hooks, eslint-config-prettier)
+- **Formatting:** Prettier 3
+- **CI/CD:** GitHub Actions (Node 18/20 matrix, lint + format check + tests)
 - **Modeling:** Python (ant colony models, sensitivity analysis)
 - **Data formats:** JSON, YAML, Markdown
 
 ## Common Commands
 
 ```bash
-# Run tests
-npx jest
+# Install dependencies
+npm install
+
+# Run all tests
+npm test
+
+# Run tests with coverage
+npm run test:coverage
 
 # Run a specific test
 npx jest src/__tests__/mycelialGrowth.test.js
 
+# Lint
+npm run lint
+
+# Lint and auto-fix
+npm run lint:fix
+
+# Check formatting
+npm run format:check
+
+# Auto-format
+npm run format
+
 # Generate report
-node bin/generate_report.js
+npm run report
 ```
 
 ## Code Conventions
@@ -55,7 +79,8 @@ node bin/generate_report.js
 - **Logic modules:** camelCase filenames (e.g., `mycelialGrowth.js`)
 - **Fallback patterns:** All external data sources must have cascading fallback strategies
 - **Self-healing:** Network components should implement regrowth/recovery mechanisms
-- No linter or formatter is configured; follow existing code style
+- **Linting:** ESLint enforces `eslint:recommended` + React rules; `no-console` warns (except `warn`/`error`); unused vars with `_` prefix are allowed
+- **Formatting:** Prettier with single quotes, trailing commas (es5), 100 char print width, semicolons
 
 ## Key Configuration
 
@@ -78,12 +103,21 @@ Knowledge landscape defined in `src/config/knowledge_nodes.json` (6 core nodes).
 
 ## Testing
 
-Tests are in `src/__tests__/` using Jest. Current coverage includes:
-- Mycelial regrowth link generation
-- Viable neighbor filtering
-- Null/undefined input fallback behavior
+Tests are in `src/__tests__/` using Jest with jsdom environment. Babel transforms ESM imports.
 
-When adding new logic modules, add corresponding tests in `src/__tests__/`.
+Current test suites:
+- `mycelialGrowth.test.js` — regrowth link generation, viable neighbor filtering, null input handling
+- `sensorAdapter.test.js` — fetch success/failure, fallback data, timestamp validation
+- `feeds.test.js` — knowledge node loading, discovered flag injection, fallback nodes
+
+When adding new logic modules, add corresponding tests in `src/__tests__/`. Tests mock `global.fetch` for async modules.
+
+## CI/CD
+
+GitHub Actions workflow (`.github/workflows/ci.yml`) runs on push/PR to `main`:
+- **Matrix:** Node.js 18 and 20
+- **Steps:** Install, format check, lint, test with coverage
+- All three checks (formatting, linting, tests) must pass
 
 ## Contributing Guidelines
 
@@ -107,9 +141,9 @@ From `CONTRIBUTING.md`:
 
 ## Deployment
 
-No CI/CD pipeline configured. Deployment is phased:
+Target hardware: ESP32/Raspberry Pi (edge), GPU clusters (central), fiber-optic/5G/RF mesh (networking).
+
+Deployment is phased:
 - **Phase 1 (2025):** Duluth-Superior pilot, 10 edge nodes
 - **Phase 2 (2026-2027):** 20 additional nodes, 500km infrastructure
 - **Phase 3 (2027-2030):** Full mesh (55 nodes), 2500km infrastructure
-
-Target hardware: ESP32/Raspberry Pi (edge), GPU clusters (central), fiber-optic/5G/RF mesh (networking).
