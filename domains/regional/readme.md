@@ -26,7 +26,7 @@ This project proposes a path forward that is:
 
 If you’re an engineer, synthetic biologist, systems designer, or investor looking to understand how living systems can form the next generation of infrastructure, this repository is for you.
 
-If you’re a regulatory official or government partner, [start here → docs/Feasibility_Overview_Summary.md](./docs/Feasibility_Overview_Summary.md).
+If you’re a regulatory official or government partner, [start here → docs/feasibility-overview-summary.md](./docs/feasibility-overview-summary.md).
 
 ## Disclaimer
 

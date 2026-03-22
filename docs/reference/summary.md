@@ -17,16 +17,16 @@ BioGrid 2.0 proposes a **neural-style infrastructure mesh**:
 
 ## 📂 Key Documents
 
-- [`docs/risk_assessment.md`](docs/risk_assessment.md)  
+- [`docs/risk/risk-assessment.md`](../risk/risk-assessment.md)
   Full matrix of strategic, technical, and economic risks
 
-- [`docs/technical_feasibility.md`](docs/technical_feasibility.md)  
+- [`docs/feasibility/technical-feasibility.md`](../feasibility/technical-feasibility.md)
   Validates project against real-world constraints
 
-- [`docs/implementation_matrix.yaml`](docs/implementation_matrix.yaml)  
+- [`docs/reference/implementation-matrix.yaml`](implementation-matrix.yaml)
   Deploy plan: dependencies, fallbacks, regions, timing
 
-- [`docs/strategic_risk_factors.md`](docs/strategic_risk_factors.md)  
+- [`docs/risk/strategic-risk-factors.md`](../risk/strategic-risk-factors.md)
   Big-picture threats and national-scale trigger points
 
 ---
@@ -61,15 +61,5 @@ Pull requests welcome. Especially:
 
 > “If the grid is a brain, BioGrid is its instinct.”
 
-License: MIT  
+License: MIT
 Owner: ∅ (Public Domain Release)
-
-
-in AntSwarmKnowledge.jsx
-
-import { useSwarmConfig } from './hooks/useSwarmConfig';
-
-const config = useSwarmConfig();
-if (!config) return <p>Loading config...</p>;
-
-// Now use: config.num_ants, config.discovery_radius, etc.
