@@ -18,8 +18,9 @@ src/
   config/             # JSON configuration (parameters.json, knowledge_nodes.json, geo_map.json)
   technical/          # Blueprint JS modules (blueprint-core.js, mycelial-network.js, system-integration.js)
   __tests__/          # Jest unit tests
+  index.jsx           # React app entry point
 docs/
-  architecture/       # Technical specs, equations, system design
+  architecture/       # Technical specs, equations, system design, prototype JS blueprints
   strategy/           # Roadmap, timelines, deployment plans
   feasibility/        # Regional feasibility & economic analysis
   risk/               # Risk assessments
@@ -32,9 +33,10 @@ domains/
   energy/             # Energy systems & AI
   waste-management/   # Waste-to-energy, microplastics
   regional/           # Regional bio-grid (infrastructure, manufacturing, dual-system)
-models/               # Python simulations (ant colony, expansion, sensitivity)
+models/               # Concept docs (ant-colony-model.md, rural-first-expansion.md)
+                      # Python simulations (eta-sensitivity.py) + tests (test_eta_sensitivity.py)
 bin/                  # Build/utility scripts (generate_report.js)
-public/               # Static assets (dashboard.html)
+public/               # Static assets (index.html, data/sensors.json)
 BioGrid_Ontology.json # Machine-readable ontology (CC0)
 ```
 
@@ -46,7 +48,7 @@ BioGrid_Ontology.json # Machine-readable ontology (CC0)
 - **Testing:** Jest 29 + jsdom environment
 - **Linting:** ESLint 8 (eslint-plugin-react, eslint-plugin-react-hooks, eslint-config-prettier)
 - **Formatting:** Prettier 3
-- **CI/CD:** GitHub Actions (Node 18/20 matrix, lint + format check + tests)
+- **CI/CD:** GitHub Actions (Node 18/20 matrix, lint + format check + tests + Python model tests)
 - **Modeling:** Python (ant colony models, sensitivity analysis)
 - **Data formats:** JSON, YAML, Markdown
 
@@ -79,6 +81,9 @@ npm run format
 
 # Generate report
 npm run report
+
+# Run Python model tests
+python models/test_eta_sensitivity.py
 ```
 
 ## Code Conventions
@@ -102,6 +107,8 @@ Swarm parameters live in `src/config/parameters.json`:
 
 Knowledge landscape defined in `src/config/knowledge_nodes.json` (6 core nodes).
 
+Other configs: `geo_map.json` (regional coordinates), `resilience-profiles.json` (fault tolerance profiles).
+
 ## Architecture Patterns
 
 - **Swarm Intelligence:** Ant colony optimization for routing and resource allocation
@@ -114,10 +121,18 @@ Knowledge landscape defined in `src/config/knowledge_nodes.json` (6 core nodes).
 
 Tests are in `src/__tests__/` using Jest with jsdom environment. Babel transforms ESM imports.
 
-Current test suites:
+Current test suites (9 suites, 48 tests):
 - `mycelialGrowth.test.js` — regrowth link generation, viable neighbor filtering, null input handling
 - `sensorAdapter.test.js` — fetch success/failure, fallback data, timestamp validation
 - `feeds.test.js` — knowledge node loading, discovered flag injection, fallback nodes
+- `useSwarmConfig.test.js` — hook loading, parameter parsing, fallback config
+- `AntSwarmKnowledge.test.js` — component rendering, swarm controls, canvas interaction
+- `LiveStatusPanel.test.js` — panel rendering, status display
+- `blueprint-core.test.js` — PHI constant, voltage classes, Fibonacci edge counts, sensor totals
+- `mycelial-network.test.js` — crossing specs, cable specs, environmental protection
+- `system-integration.test.js` — test areas, validation tools, security simulations
+
+Python tests in `models/test_eta_sensitivity.py` (6 tests) — transduction efficiency calculations.
 
 When adding new logic modules, add corresponding tests in `src/__tests__/`. Tests mock `global.fetch` for async modules.
 
@@ -125,8 +140,8 @@ When adding new logic modules, add corresponding tests in `src/__tests__/`. Test
 
 GitHub Actions workflow (`.github/workflows/ci.yml`) runs on push/PR to `main`:
 - **Matrix:** Node.js 18 and 20
-- **Steps:** Install, format check, lint, test with coverage
-- All three checks (formatting, linting, tests) must pass
+- **Steps:** Install, format check, lint, test with coverage, Python model tests
+- All checks (formatting, linting, JS tests, Python tests) must pass
 
 ## Contributing Guidelines
 

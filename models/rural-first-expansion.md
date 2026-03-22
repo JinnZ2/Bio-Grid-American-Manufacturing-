@@ -1,7 +1,4 @@
-rural_expansion = {
-    "filename": "rural-first-expansion.md",
-    "content": """
-#  BioGrid 2.0 – Rural-First Expansion Strategy
+# BioGrid 2.0 - Rural-First Expansion Strategy
 
 ## Why Rural First?
 
@@ -17,15 +14,15 @@ BioGrid 2.0 initiates its rollout in rural regions for strategic and systemic re
 
 ## Expansion Phases
 
-###  Phase 1: Anchor Nodes
+### Phase 1: Anchor Nodes
 - Establish sites in Iron Range towns, Duluth-Superior ports
 - Leverage mining towns (Mountain Iron, Hibbing) as logic + resource hubs
 
-###  Phase 2: Port-Centric Growth
+### Phase 2: Port-Centric Growth
 - Scale transport data layers and CRISPR optimization near harbor
 - Enable cargo-logic feedback loops and cold-region biomanufacturing trials
 
-###  Phase 3: Regional Web Formation
+### Phase 3: Regional Web Formation
 - Extend connections across rural Wisconsin and Northern Minnesota
 - Interlink agricultural zones, rail nodes, and biocomposite factories
 
@@ -41,10 +38,8 @@ BioGrid 2.0 initiates its rollout in rural regions for strategic and systemic re
 ---
 
 ## Map: Rural Phase Flow (suggested)
-1. **Mountain Iron** → Taconite Hub
-2. **Silver Bay** → Processing/Port Sync
-3. **Duluth/Superior** → Core Control + Export Node
-4. **Ashland/Wausau** → Eastward Spread
-5. **Chippewa Valley** → CRISPR BioFarm Integration
-"""
-}
+1. **Mountain Iron** - Taconite Hub
+2. **Silver Bay** - Processing/Port Sync
+3. **Duluth/Superior** - Core Control + Export Node
+4. **Ashland/Wausau** - Eastward Spread
+5. **Chippewa Valley** - CRISPR BioFarm Integration
