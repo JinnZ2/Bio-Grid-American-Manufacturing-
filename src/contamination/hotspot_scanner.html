@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bio-Grid Contamination Hotspot Scanner</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #0f1117;
+    --surface: #1a1d27;
+    --border:  #2a2d3a;
+    --text:    #e2e4ef;
+    --muted:   #6b7280;
+    --accent:  #4f8ef7;
+    --risk0:   #22c55e;
+    --risk1:   #84cc16;
+    --risk2:   #eab308;
+    --risk3:   #f97316;
+    --risk4:   #ef4444;
+    --font:    'Courier New', Courier, monospace;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 16px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  header { margin-bottom: 20px; }
+  header h1 { font-size: 16px; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; }
+  header p  { color: var(--muted); font-size: 11px; margin-top: 4px; }
+
+  .grid { display: grid; grid-template-columns: 340px 1fr; gap: 16px; }
+
+  @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+  }
+
+  .panel h2 { font-size: 11px; color: var(--accent); text-transform: uppercase;
+              letter-spacing: 1px; margin-bottom: 12px; }
+
+  /* Region selector */
+  select, button {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 12px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  button { background: var(--accent); color: #fff; border-color: var(--accent); margin-top: 4px; }
+  button:hover { filter: brightness(1.1); }
+
+  /* Sliders */
+  .elem-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .elem-row label { width: 30px; font-size: 11px; color: var(--muted); flex-shrink: 0; }
+  .elem-row input[type=range] { flex: 1; accent-color: var(--accent); cursor: pointer; }
+  .elem-row .val { width: 52px; text-align: right; font-size: 11px; color: var(--text); flex-shrink: 0; }
+  .elem-row .unit { width: 26px; font-size: 10px; color: var(--muted); flex-shrink: 0; }
+
+  /* Population / product mix */
+  .mix-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .mix-row label { width: 78px; font-size: 11px; color: var(--muted); flex-shrink: 0; }
+  .mix-row input[type=range] { flex: 1; accent-color: var(--accent); cursor: pointer; }
+  .mix-row .val { width: 38px; text-align: right; font-size: 11px; }
+
+  /* Risk scores */
+  .score-block { margin-bottom: 14px; }
+  .score-block .label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .score-block .bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .score-block .bar-bg { flex: 1; height: 14px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .score-block .bar-fill { height: 100%; border-radius: 3px; transition: width 0.2s, background 0.2s; }
+  .score-block .bar-num { width: 32px; text-align: right; font-size: 12px; font-weight: bold; }
+
+  /* EWRI display */
+  #ewri-display {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    padding: 12px 0 4px;
+    transition: color 0.2s;
+  }
+  #ewri-label { text-align: center; font-size: 10px; color: var(--muted); margin-bottom: 14px; }
+
+  /* Ranking table */
+  #rank-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  #rank-table th { color: var(--muted); text-align: left; padding: 4px 6px;
+                   border-bottom: 1px solid var(--border); white-space: nowrap; }
+  #rank-table td { padding: 4px 6px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  #rank-table tr.active td { background: #1e2540; }
+  #rank-table tr:hover td { background: #1e2540; cursor: pointer; }
+  .rank-bar { display: inline-block; height: 8px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
+
+  .info { font-size: 10px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
+
+  /* Derived stats */
+  .stat-row { display: flex; justify-content: space-between; font-size: 11px;
+              padding: 3px 0; border-bottom: 1px solid var(--border); }
+  .stat-row .sk { color: var(--muted); }
+  .stat-row .sv { font-weight: bold; }
+
+  .warn { color: var(--risk3); }
+  .crit { color: var(--risk4); }
+  .ok   { color: var(--risk0); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Bio-Grid American Manufacturing — Contamination Hotspot Scanner</h1>
+  <p>Scrap-alloy trace-element physics &rarr; regional injury risk &rarr; exposure_weighted_risk_index</p>
+</header>
+
+<div class="grid">
+
+  <!-- ── Left panel: inputs ── -->
+  <div>
+    <div class="panel" style="margin-bottom:12px">
+      <h2>Region preset</h2>
+      <select id="region-select">
+        <option value="custom">— Custom / manual —</option>
+      </select>
+    </div>
+
+    <div class="panel" style="margin-bottom:12px">
+      <h2>Alloy composition (ppm)</h2>
+      <div id="elem-inputs"></div>
+    </div>
+
+    <div class="panel" style="margin-bottom:12px">
+      <h2>Population &amp; product mix</h2>
+      <div class="mix-row">
+        <label>Population</label>
+        <input type="range" id="pop" min="0.1" max="15" step="0.01" value="3">
+        <span class="val" id="pop-val">3.00</span>
+        <span class="unit">M</span>
+      </div>
+      <div id="mix-inputs"></div>
+      <div style="font-size:10px;color:var(--muted);margin-top:6px" id="mix-warn"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Derived material properties</h2>
+      <div id="derived-stats"></div>
+    </div>
+  </div>
+
+  <!-- ── Right panel: scores + ranking ── -->
+  <div>
+    <div class="panel" style="margin-bottom:12px">
+      <h2>Injury vector scores (0–10)</h2>
+      <div id="ewri-display">—</div>
+      <div id="ewri-label">exposure_weighted_risk_index</div>
+      <div id="score-bars"></div>
+    </div>
+
+    <div class="panel">
+      <h2>All-region ranking</h2>
+      <table id="rank-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Region</th>
+            <th>EWRI</th>
+            <th>Food</th>
+            <th>Elec</th>
+            <th>Med</th>
+            <th>Struct</th>
+            <th>IACS%</th>
+          </tr>
+        </thead>
+        <tbody id="rank-body"></tbody>
+      </table>
+      <div class="info">
+        EWRI = &Sigma;(score &times; product share) &times; pop_M<br>
+        Click a row to load that region's composition.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─── Physics constants (mirrors contamination_sim.py exactly) ─────────────────
+
+const FE_PLATELET_THRESHOLD_PPM = 1500;
+const SI_BETA_STABILIZATION     = 0.55;
+
+const IACS_PENALTY_PER_100PPM = {
+  Cu: 0.35, Mn: 0.30, Cr: 0.40,
+  V:  0.50, Ti: 0.20, Fe: 0.12, Si: 0.10
+};
+const AL_BASE_IACS          = 61.0;
+const IACS_STERILISE_THRESH = 40.0;
+
+const PB_MIGRATION_FRACTION = 3.0e-4;
+const CD_MIGRATION_FRACTION = 5.0e-4;
+const PB_FDA_LIMIT_PPM      = 0.10;
+const CD_EFSA_LIMIT_PPM     = 0.05;
+const CU_PIT_RATE_NORM      = 8.0e-4;
+
+// ─── Physics functions ────────────────────────────────────────────────────────
+
+function brittlenessIndex(c) {
+  if (c.Fe <= FE_PLATELET_THRESHOLD_PPM) return 0;
+  const excess = c.Fe - FE_PLATELET_THRESHOLD_PPM;
+  const si     = 1 + SI_BETA_STABILIZATION * (c.Si / 5000);
+  return Math.min((excess / 10000) * si, 1);
+}
+
+function iacsPercent(c) {
+  const elems = [['Cu',c.Cu],['Mn',c.Mn],['Cr',c.Cr],['V',c.V],['Ti',c.Ti],['Fe',c.Fe],['Si',c.Si]];
+  const loss  = elems.reduce((s,[k,v]) => s + (v/100)*IACS_PENALTY_PER_100PPM[k], 0);
+  return Math.max(0, AL_BASE_IACS - loss);
+}
+
+function galvanicDamage(c) { return Math.min(c.Cu * CU_PIT_RATE_NORM, 1); }
+function pbDose(c)         { return (c.Pb * PB_MIGRATION_FRACTION) / PB_FDA_LIMIT_PPM; }
+function cdDose(c)         { return (c.Cd * CD_MIGRATION_FRACTION) / CD_EFSA_LIMIT_PPM; }
+
+function scoreFoodCan(c) {
+  return Math.min(pbDose(c)*4 + cdDose(c)*3 + brittlenessIndex(c)*2 + galvanicDamage(c)*1, 10);
+}
+function scoreElectrical(c) {
+  const iacs = iacsPercent(c);
+  const lf   = Math.max(0, AL_BASE_IACS - iacs) / AL_BASE_IACS;
+  return Math.min(Math.pow(lf, 1.5)*8 + galvanicDamage(c)*2, 10);
+}
+function scoreMedical(c) {
+  const steril = iacsPercent(c) < IACS_STERILISE_THRESH ? 3 : 0;
+  return Math.min(pbDose(c)*2 + cdDose(c)*1.5 + galvanicDamage(c)*2 + steril + brittlenessIndex(c)*1, 10);
+}
+function scoreStructural(c) {
+  return Math.min(brittlenessIndex(c)*6 + galvanicDamage(c)*3, 10);
+}
+
+function allScores(c) {
+  return {
+    food_can:   scoreFoodCan(c),
+    electrical: scoreElectrical(c),
+    medical:    scoreMedical(c),
+    structural: scoreStructural(c),
+  };
+}
+
+function ewri(scores, mix, popM) {
+  return (scores.food_can   * mix.food
+        + scores.electrical * mix.elec
+        + scores.medical    * mix.med
+        + scores.structural * mix.struct) * popM;
+}
+
+// ─── Regional presets ────────────────────────────────────────────────────────
+
+const REGIONS = [
+  {
+    name: "Duluth-Superior (Iron Range)",
+    c:  { Fe:3200, Si:1800, Cu:400,  Pb:150, Cd:20,  Mn:1400, Cr:100, V:50,  Ti:120 },
+    pop: 0.29,
+    mix: { food:0.15, elec:0.40, med:0.05, struct:0.40 },
+  },
+  {
+    name: "Detroit Metro (Auto Scrap)",
+    c:  { Fe:2800, Si:2200, Cu:1800, Pb:680, Cd:55,  Mn:900,  Cr:220, V:30,  Ti:80  },
+    pop: 4.39,
+    mix: { food:0.10, elec:0.50, med:0.10, struct:0.30 },
+  },
+  {
+    name: "Cleveland-Lorain (Steel/Al Mixed)",
+    c:  { Fe:4100, Si:2600, Cu:950,  Pb:310, Cd:38,  Mn:1200, Cr:180, V:65,  Ti:95  },
+    pop: 2.06,
+    mix: { food:0.20, elec:0.35, med:0.15, struct:0.30 },
+  },
+  {
+    name: "Chicago-Gary (Integrated Mills)",
+    c:  { Fe:2600, Si:1500, Cu:700,  Pb:420, Cd:42,  Mn:2100, Cr:480, V:90,  Ti:60  },
+    pop: 9.53,
+    mix: { food:0.25, elec:0.30, med:0.20, struct:0.25 },
+  },
+  {
+    name: "Milwaukee-Racine (Foundry)",
+    c:  { Fe:3500, Si:5800, Cu:620,  Pb:260, Cd:30,  Mn:800,  Cr:140, V:40,  Ti:110 },
+    pop: 1.57,
+    mix: { food:0.15, elec:0.25, med:0.10, struct:0.50 },
+  },
+  {
+    name: "Minneapolis-St. Paul (Post-Consumer)",
+    c:  { Fe:2100, Si:1600, Cu:550,  Pb:780, Cd:28,  Mn:600,  Cr:90,  V:25,  Ti:70  },
+    pop: 3.64,
+    mix: { food:0.30, elec:0.30, med:0.15, struct:0.25 },
+  },
+];
+
+// ─── UI state ────────────────────────────────────────────────────────────────
+
+const ELEM_CONFIG = [
+  { key:'Fe', label:'Fe', max:8000,  step:50,  name:'Iron' },
+  { key:'Si', label:'Si', max:10000, step:50,  name:'Silicon' },
+  { key:'Cu', label:'Cu', max:4000,  step:25,  name:'Copper' },
+  { key:'Pb', label:'Pb', max:2000,  step:10,  name:'Lead' },
+  { key:'Cd', label:'Cd', max:200,   step:1,   name:'Cadmium' },
+  { key:'Mn', label:'Mn', max:5000,  step:25,  name:'Manganese' },
+  { key:'Cr', label:'Cr', max:1500,  step:10,  name:'Chromium' },
+  { key:'V',  label:'V',  max:500,   step:5,   name:'Vanadium' },
+  { key:'Ti', label:'Ti', max:500,   step:5,   name:'Titanium' },
+];
+
+const MIX_CONFIG = [
+  { key:'food',   label:'Food can',   color:'#f97316' },
+  { key:'elec',   label:'Electrical', color:'#4f8ef7' },
+  { key:'med',    label:'Medical',    color:'#a78bfa' },
+  { key:'struct', label:'Structural', color:'#22c55e' },
+];
+
+const VECTOR_META = [
+  { key:'food_can',   label:'FOOD_CAN',   sub:'oxide barrier breach + Pb/Cd migration' },
+  { key:'electrical', label:'ELECTRICAL', sub:'IACS drop → resistive heating → fire' },
+  { key:'medical',    label:'MEDICAL',    sub:'ion leaching + sterilisation failure' },
+  { key:'structural', label:'STRUCTURAL', sub:'β-AlFeSi brittle fracture + galvanic pitting' },
+];
+
+// ─── DOM construction ─────────────────────────────────────────────────────────
+
+function buildInputs() {
+  // Element sliders
+  const ei = document.getElementById('elem-inputs');
+  ELEM_CONFIG.forEach(e => {
+    const row = document.createElement('div');
+    row.className = 'elem-row';
+    row.innerHTML = `
+      <label title="${e.name}">${e.label}</label>
+      <input type="range" id="sl-${e.key}" min="0" max="${e.max}" step="${e.step}" value="0">
+      <span class="val" id="v-${e.key}">0</span>
+      <span class="unit">ppm</span>`;
+    ei.appendChild(row);
+    row.querySelector('input').addEventListener('input', onCompositionChange);
+  });
+
+  // Mix sliders
+  const mi = document.getElementById('mix-inputs');
+  MIX_CONFIG.forEach(m => {
+    const row = document.createElement('div');
+    row.className = 'mix-row';
+    row.innerHTML = `
+      <label>${m.label}</label>
+      <input type="range" id="mix-${m.key}" min="0" max="1" step="0.01" value="0.25"
+             style="accent-color:${m.color}">
+      <span class="val" id="mv-${m.key}">25%</span>`;
+    mi.appendChild(row);
+    row.querySelector('input').addEventListener('input', onMixChange);
+  });
+
+  document.getElementById('pop').addEventListener('input', onMixChange);
+
+  // Score bars
+  const sb = document.getElementById('score-bars');
+  VECTOR_META.forEach(v => {
+    const blk = document.createElement('div');
+    blk.className = 'score-block';
+    blk.innerHTML = `
+      <div class="label">${v.label} <span style="color:var(--muted);font-size:10px">— ${v.sub}</span></div>
+      <div class="bar-wrap">
+        <div class="bar-bg"><div class="bar-fill" id="bar-${v.key}" style="width:0%"></div></div>
+        <span class="bar-num" id="num-${v.key}">0.00</span>
+      </div>`;
+    sb.appendChild(blk);
+  });
+
+  // Region select
+  const sel = document.getElementById('region-select');
+  REGIONS.forEach((r, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = r.name;
+    sel.appendChild(opt);
+  });
+  sel.addEventListener('change', onRegionSelect);
+}
+
+// ─── Colour helpers ───────────────────────────────────────────────────────────
+
+function riskColor(score, max = 10) {
+  const t = score / max;
+  if (t < 0.2) return 'var(--risk0)';
+  if (t < 0.4) return 'var(--risk1)';
+  if (t < 0.6) return 'var(--risk2)';
+  if (t < 0.8) return 'var(--risk3)';
+  return 'var(--risk4)';
+}
+
+function ewriColor(v) {
+  if (v < 5)  return 'var(--risk0)';
+  if (v < 15) return 'var(--risk1)';
+  if (v < 30) return 'var(--risk2)';
+  if (v < 60) return 'var(--risk3)';
+  return 'var(--risk4)';
+}
+
+// ─── Read current UI values ───────────────────────────────────────────────────
+
+function readComposition() {
+  const c = {};
+  ELEM_CONFIG.forEach(e => { c[e.key] = parseFloat(document.getElementById(`sl-${e.key}`).value); });
+  return c;
+}
+
+function readMix() {
+  const m = {};
+  MIX_CONFIG.forEach(mk => { m[mk.key] = parseFloat(document.getElementById(`mix-${mk.key}`).value); });
+  return m;
+}
+
+function readPop() {
+  return parseFloat(document.getElementById('pop').value);
+}
+
+// ─── Update display ───────────────────────────────────────────────────────────
+
+function updateDisplay() {
+  const c   = readComposition();
+  const mix = readMix();
+  const pop = readPop();
+
+  // Update element value labels
+  ELEM_CONFIG.forEach(e => {
+    document.getElementById(`v-${e.key}`).textContent = c[e.key].toLocaleString();
+  });
+  document.getElementById('pop-val').textContent = pop.toFixed(2);
+  MIX_CONFIG.forEach(m => {
+    document.getElementById(`mv-${m.key}`).textContent =
+      Math.round(mix[m.key] * 100) + '%';
+  });
+
+  // Mix sum warning
+  const total = MIX_CONFIG.reduce((s, m) => s + mix[m.key], 0);
+  const warn  = document.getElementById('mix-warn');
+  if (Math.abs(total - 1) > 0.05) {
+    warn.textContent = `⚠ shares sum to ${(total*100).toFixed(0)}% (should be ~100%)`;
+    warn.style.color = 'var(--risk3)';
+  } else {
+    warn.textContent = `Shares: ${(total*100).toFixed(0)}%`;
+    warn.style.color = 'var(--muted)';
+  }
+
+  // Scores
+  const sc = allScores(c);
+  VECTOR_META.forEach(v => {
+    const val  = sc[v.key];
+    const pct  = (val / 10 * 100).toFixed(1);
+    const col  = riskColor(val);
+    document.getElementById(`bar-${v.key}`).style.width      = pct + '%';
+    document.getElementById(`bar-${v.key}`).style.background = col;
+    document.getElementById(`num-${v.key}`).textContent      = val.toFixed(2);
+    document.getElementById(`num-${v.key}`).style.color      = col;
+  });
+
+  // EWRI
+  const e = ewri(sc, mix, pop);
+  const ed = document.getElementById('ewri-display');
+  ed.textContent  = e.toFixed(3);
+  ed.style.color  = ewriColor(e);
+
+  // Derived stats
+  const iacs = iacsPercent(c);
+  const brit = brittlenessIndex(c);
+  const galv = galvanicDamage(c);
+  const ds   = document.getElementById('derived-stats');
+
+  const iacsClass = iacs < IACS_STERILISE_THRESH ? 'crit' : iacs < 50 ? 'warn' : 'ok';
+  const britClass = brit > 0.5 ? 'crit' : brit > 0.1 ? 'warn' : 'ok';
+
+  ds.innerHTML = `
+    <div class="stat-row"><span class="sk">IACS conductivity</span>
+      <span class="sv ${iacsClass}">${iacs.toFixed(1)} %</span></div>
+    <div class="stat-row"><span class="sk">β-AlFeSi brittleness</span>
+      <span class="sv ${britClass}">${brit.toFixed(4)}</span></div>
+    <div class="stat-row"><span class="sk">Galvanic damage index</span>
+      <span class="sv ${galv > 0.5 ? 'warn' : 'ok'}">${galv.toFixed(4)}</span></div>
+    <div class="stat-row"><span class="sk">Pb migration dose / FDA limit</span>
+      <span class="sv ${pbDose(c) > 1 ? 'crit' : 'ok'}">${pbDose(c).toFixed(3)} ×</span></div>
+    <div class="stat-row"><span class="sk">Cd migration dose / EFSA limit</span>
+      <span class="sv ${cdDose(c) > 1 ? 'crit' : 'ok'}">${cdDose(c).toFixed(3)} ×</span></div>
+    <div class="stat-row"><span class="sk">Sterilisation risk</span>
+      <span class="sv ${iacs < IACS_STERILISE_THRESH ? 'crit' : 'ok'}">
+        ${iacs < IACS_STERILISE_THRESH ? 'FAIL — IACS < 40%' : 'OK'}</span></div>
+  `;
+
+  updateRankTable(e);
+}
+
+// ─── Ranking table ────────────────────────────────────────────────────────────
+
+let _currentEwri = null;
+
+function computeRegionResults() {
+  return REGIONS.map((r, i) => {
+    const sc = allScores(r.c);
+    const ev = ewri(sc, r.mix, r.pop);
+    return { i, name: r.name, ev, sc, iacs: iacsPercent(r.c) };
+  }).sort((a, b) => b.ev - a.ev);
+}
+
+function updateRankTable(currentEwri) {
+  _currentEwri = currentEwri;
+  const rows   = computeRegionResults();
+  const maxEv  = rows[0].ev;
+  const tbody  = document.getElementById('rank-body');
+  tbody.innerHTML = '';
+
+  rows.forEach((r, rank) => {
+    const tr = document.createElement('tr');
+    tr.dataset.regionIdx = r.i;
+    tr.addEventListener('click', () => loadRegion(r.i));
+
+    const barW = Math.round(r.ev / maxEv * 80);
+    const col  = ewriColor(r.ev);
+
+    tr.innerHTML = `
+      <td>${rank + 1}</td>
+      <td><span class="rank-bar" style="width:${barW}px;background:${col}"></span>
+          ${r.name.split('(')[0].trim()}</td>
+      <td style="color:${col};font-weight:bold">${r.ev.toFixed(2)}</td>
+      <td>${r.sc.food_can.toFixed(1)}</td>
+      <td>${r.sc.electrical.toFixed(1)}</td>
+      <td>${r.sc.medical.toFixed(1)}</td>
+      <td>${r.sc.structural.toFixed(1)}</td>
+      <td>${r.iacs.toFixed(1)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ─── Load a preset region into the sliders ───────────────────────────────────
+
+function loadRegion(idx) {
+  const r = REGIONS[idx];
+  ELEM_CONFIG.forEach(e => {
+    const sl = document.getElementById(`sl-${e.key}`);
+    sl.value = r.c[e.key] ?? 0;
+  });
+  MIX_CONFIG.forEach(m => {
+    document.getElementById(`mix-${m.key}`).value = r.mix[m.key] ?? 0;
+  });
+  document.getElementById('pop').value = r.pop;
+  document.getElementById('region-select').value = idx;
+  updateDisplay();
+  // Highlight active row
+  document.querySelectorAll('#rank-body tr').forEach(tr => {
+    tr.classList.toggle('active', parseInt(tr.dataset.regionIdx) === idx);
+  });
+}
+
+// ─── Event handlers ───────────────────────────────────────────────────────────
+
+function onCompositionChange() {
+  document.getElementById('region-select').value = 'custom';
+  document.querySelectorAll('#rank-body tr').forEach(tr => tr.classList.remove('active'));
+  updateDisplay();
+}
+
+function onMixChange() {
+  document.getElementById('region-select').value = 'custom';
+  updateDisplay();
+}
+
+function onRegionSelect(e) {
+  const v = e.target.value;
+  if (v !== 'custom') loadRegion(parseInt(v));
+}
+
+// ─── Init ────────────────────────────────────────────────────────────────────
+
+buildInputs();
+loadRegion(3);  // Chicago-Gary — highest EWRI as default view
+</script>
+</body>
+</html>
