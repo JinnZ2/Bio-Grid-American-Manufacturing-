@@ -1,211 +1,151 @@
 """
 failure_modes.py  --  CC0
 
-Analytic time-to-threshold for each degradation mechanism, given a Structure.
+CALIBRATION CORRECTION (from source doc):
+  The draft used  critical_mode = min(failure_modes, key=get)  over raw scores.
+  Raw scores mix units and directions (some "bigger = worse", some not), so the
+  min is not well-defined as "occurs first". Here each mode emits a
+  TIME-TO-FAILURE in years (when its accumulated demand reaches capacity).
+  critical_mode = the mode with the SHORTEST time. That is "fails first",
+  unambiguously.
 
-Each function returns years until that mode alone would collapse the structure.
-The minimum across modes is the governing failure; collapse occurs first.
-
-Physics references:
-  FT spalling     : Fagerlund, Cement Concrete Res 1977; critical saturation theory
-  Salt corrosion  : Tuutti, Cement Concrete Inst 1982; chloride diffusion model
-  Seismic brittle : Park & Paulay, RC Structures 1975; ductility demand vs. capacity
-  Settlement      : Terzaghi & Peck, Soil Mechanics 1948; drainage-controlled consolidation
-  Mortar leaching : Richardson, Cement Concrete Res 2004; Ca dissolution kinetics
-  Redundancy      : graph-theory R0 model (archetypeRedundancy.js) — columns + LSF
+Each function returns years-to-failure (float). inf = effectively never under
+these conditions. stdlib + math only.
 """
 
 import math
-from typing import Dict, Tuple
+from structure import Structure
 
 INF = float("inf")
 
-# Rigidity threshold above which brittle seismic fracture is active.
-# Below this value joints dissipate energy (dry_stone rocking, lime_mortar sliding)
-# rather than accumulating damage to fracture → treated as non-brittle.
-_BRITTLE_RIGIDITY_THRESHOLD = 0.60
+
+def _safe(years):
+    return years if years > 0 else INF
 
 
-# ─── individual mode functions ────────────────────────────────────────────────
-
-def _ft_spalling_time(s) -> float:
+def compression_crushing(s: Structure) -> float:
     """
-    Freeze-thaw spalling: ice-lens expansion above critical saturation.
-
-    Rate ∝ porosity^1.5 × annual FT cycles.
-    Self-healing (pozzolanic C-A-S-H) fills pores over time → reduces rate.
-    Quality factor scales time multiplicatively (better workmanship = longer life).
+    Instantaneous demand/capacity. If load >= capacity -> fails at year 0
+    (returns small epsilon). Otherwise creep + strength decay set a clock.
     """
-    ft = s.env.freeze_thaw_cycles
-    if ft == 0:
+    load = s.loads.dead_load + s.loads.live_load
+    capacity = s.material.compressive_strength * s.geometry.thickness_m
+    if capacity <= 0:
+        return 0.001
+    util = load / capacity
+    if util >= 1.0:
+        return 0.001                      # already crushing
+    # strength decays ~0.1%/yr; year when decayed capacity meets load
+    # capacity(t) = capacity * 0.999**t ; solve 0.999**t = util
+    return _safe(math.log(util) / math.log(0.999))
+
+
+def joint_shear(s: Structure) -> float:
+    """
+    Shear at block joints. Driven by seismic + thrust. Tensile/friction limited.
+    Lower tensile strength + higher seismic -> shorter time.
+    """
+    drive = (s.loads.seismic_factor + s.environment.seismic_factor) * \
+            (s.loads.dead_load + s.loads.live_load)
+    resist = s.material.tensile_strength * s.geometry.block_height_m + 1.0
+    if drive <= 0:
         return INF
-    p    = s.props.porosity
-    sh   = s.props.self_healing
-    rate = (p ** 1.5) * (ft / 1000.0) * (1.0 - sh * 0.60) * 0.55
-    return (1.0 / rate) * s.quality_factor if rate > 0 else INF
+    ratio = drive / resist
+    # map stress ratio to a time clock: high ratio -> fast
+    return _safe(100.0 / (ratio + 1e-6))
 
 
-def _salt_corrosion_time(s) -> float:
+def foundation_settlement(s: Structure) -> float:
     """
-    Chloride / salt attack.
-
-    Rebar multiplies damage 5× via depassivation → expansive Fe2O3 products
-    that spall cover concrete (Tuutti 1982 initiation + propagation model).
-    Pozzolanic self-healing binds Cl⁻ into Friedel's salt → reduces penetration.
+    Differential settlement accumulates; failure when it exceeds a tolerance
+    set by span (longer span tolerates less angular distortion before cracking).
+    tolerance angular distortion ~ 1/500 for masonry.
     """
-    sal = s.env.salinity
-    if sal == 0:
+    rate = s.environment.settlement_rate
+    if rate <= 0:
         return INF
-    p     = s.props.porosity
-    rebar = 5.0 if s.props.has_rebar else 1.0
-    sh    = s.props.self_healing
-    rate  = sal * (p ** 0.8) * rebar * (1.0 - sh * 0.35) / 30.0
-    return (1.0 / rate) * s.quality_factor if rate > 0 else INF
+    allow = s.geometry.span_m / 500.0     # meters of differential before damage
+    return _safe(allow / rate)
 
 
-def _seismic_brittle_time(s) -> float:
+def freeze_thaw_damage(s: Structure) -> float:
     """
-    Seismic brittle fracture.
-
-    Rigid structures (rigidity > threshold) cannot dissipate seismic energy
-    through joint slip or plastic hinging → catastrophic fracture on peak event.
-
-    Ductile structures (dry_stone rocking, lime_mortar joint slip) are modelled
-    as immune to this mode — they absorb energy without fracture.
-
-    A minimum seismic_factor threshold filters out tectonic-quiet regions:
-    below sf=0.12 the annual probability of a damaging event is negligible
-    and background noise in the simulation would otherwise generate spurious
-    seismic collapses in FT/stable regimes.
-
-    Expected time = 1 / (annual P(collapse)):
-      P(collapse | event) ∝ rigidity^2.2 × seismic_factor
-      event rate          ≈ seismic_factor (index of mean annual return frequency)
+    Cyclic ice expansion. Damage per year ~ cycles * saturation. Failure when
+    cumulative spall depth reaches a fraction of thickness.
     """
-    if s.props.rigidity < _BRITTLE_RIGIDITY_THRESHOLD:
-        return INF   # ductile: joints dissipate energy, no brittle failure mode
-
-    sf = s.env.seismic_factor
-    if sf < 0.12:
-        return INF   # below structural-damage threshold for tectonically quiet sites
-    rig   = s.props.rigidity
-    p_col = (rig ** 2.2) * sf
-    rate  = sf * p_col
-    return (1.0 / rate) * s.quality_factor if rate > 0 else INF
-
-
-def _settlement_time(s) -> float:
-    """
-    Differential settlement in saturated clay.
-
-    Only activates when groundwater_level > 0.50 — genuinely saturated clay.
-    Below that threshold the soil is not in consolidating plastic state and
-    settlement damage is negligible (the regime data encodes this: wet_clay
-    has gw_mean=0.78, freeze_thaw has gw_mean=0.35).
-
-    Free-draining structures (dry_stone) dissipate pore pressure instantly →
-    near-zero consolidation-driven settlement differential.
-    """
-    gw = s.env.groundwater_level
-    sr = s.env.settlement_rate
-    if gw < 0.50 or sr == 0:
+    cycles = s.environment.freeze_thaw_cycles
+    sat = s.environment.humidity_pct / 100.0
+    per_year = cycles * sat * 1.0e-4      # m of spall per year (EST)
+    if per_year <= 0:
         return INF
-    drain = s.props.drainage
-    rate  = (1.0 - drain) * gw * sr * 20.0
-    return (1.0 / rate) * s.quality_factor if rate > 0 else INF
+    budget = 0.30 * s.geometry.thickness_m  # lose 30% thickness -> fail
+    return _safe(budget / per_year)
 
 
-def _mortar_leaching_time(s) -> float:
+def water_intrusion(s: Structure) -> float:
     """
-    Mortar / bond dissolution under sustained wet conditions.
-
-    Dry_stone has bond_strength ≈ 0.18 (friction only); no mortar exists to
-    leach → mode is absent below the threshold.
-    Lime mortar dissolves faster than Portland in alkaline groundwater.
+    Saturation + hydrostatic pressure drive matrix degradation / wash-out and
+    (for reinforced) corrosion. salinity accelerates.
     """
-    bs = s.props.bond_strength
-    if bs < 0.25:
-        return INF   # friction-only joint: no mortar to leach
-    hum  = s.env.humidity_pct / 100.0
-    gw   = s.env.groundwater_level
-    sh   = s.props.self_healing
-    rate = (1.0 - bs) * hum * gw * 0.04 * (1.0 - sh * 0.40)
-    return (1.0 / rate) * s.quality_factor if rate > 0 else INF
+    drive = s.environment.groundwater_level * (1.0 + 2.0 * s.environment.salinity)
+    if drive <= 0:
+        return INF
+    # better water resistance is captured upstream in archetype params via
+    # material strength; here drive sets a clock scaled to thickness
+    per_year = drive * 1.0e-3
+    budget = 0.40 * s.geometry.thickness_m
+    return _safe(budget / per_year)
 
 
-def _carbonation_shrinkage_time(s) -> float:
+def material_creep(s: Structure) -> float:
     """
-    Slow carbonation-driven shrinkage cracking in cementitious matrices.
-
-    Absent in dry_stone (no cement binder to carbonate).
-    Rate peaks at 50–70% RH (optimal CO2 ingress with available moisture).
-    Self-healing (pozzolanic) partially counters crack propagation.
-
-    Physical basis: CO2 + Ca(OH)2 → CaCO3 + H2O.  Carbonation front
-    advances as sqrt(time); cumulative shrinkage mismatch eventually cracks
-    the matrix in a statically determinate (rigid) system.  Dry_stone is
-    immune because there is no continuous cement matrix.
+    Creep strain accumulates; failure when total creep strain exceeds a limit
+    (~0.5% for masonry before cracking redistributes load).
     """
-    if s.props.bond_strength < 0.25:
-        return INF   # dry_stone / friction-only: no cement matrix
-    hum       = s.env.humidity_pct / 100.0
-    rh_factor = 4.0 * hum * (1.0 - hum)   # peaks at 50% RH, zero at 0% and 100%
-    sh        = s.props.self_healing
-    rate      = 0.0024 * rh_factor * (1.0 - sh * 0.40)
-    return (1.0 / rate) * s.quality_factor if rate > 0 else INF
+    rate = s.material.creep_rate
+    if rate <= 0:
+        return INF
+    creep_limit = 0.005
+    return _safe(creep_limit / rate)
 
 
-def _redundancy_exhaustion_time(s) -> float:
+def erosion(s: Structure) -> float:
     """
-    Slow background structural degradation moderated by graph-theory redundancy.
-
-    Uses archetypeRedundancy.js logic:
-      R0 = columns (min-cut; independent load paths)
-      LSF = load-sharing factor from lateral ties (slows per-column damage)
-
-    Higher R0 and more lateral ties → longer expected life even under diffuse
-    environmental stress that no single mode dominates.
-
-    self_healing reduces the effective degradation rate: pozzolanic C-A-S-H
-    and lime re-carbonation continuously repair micro-damage, extending life.
-    This is why roman pozzolan structures survive millennia in benign climates.
+    Surface loss from wind/water flux. Slow unless saturated + exposed.
     """
-    from archetypes import load_sharing_factor
-    props = s.props
-    r0    = props.columns
-    lsf   = load_sharing_factor(props)
-
-    base_rate  = 0.015
-    # Self-healing repairs micro-damage but diminishing returns at high coverage
-    heal_damp  = 1.0 + props.self_healing * 0.8
-    effective  = base_rate / (r0 * (1.0 + lsf) * heal_damp)
-    hum_factor = s.env.humidity_pct / 100.0
-    rate       = effective * (0.5 + 0.5 * hum_factor)
-    return (1.0 / rate) * s.quality_factor if rate > 0 else INF
+    flux = s.loads.wind_factor + s.environment.groundwater_level
+    if flux <= 0:
+        return INF
+    per_year = flux * 5.0e-5
+    budget = 0.50 * s.geometry.thickness_m
+    return _safe(budget / per_year)
 
 
-# ─── registry ────────────────────────────────────────────────────────────────
-
-_MODES = {
-    "ft_spalling":            _ft_spalling_time,
-    "salt_corrosion":         _salt_corrosion_time,
-    "seismic_brittle":        _seismic_brittle_time,
-    "settlement":             _settlement_time,
-    "mortar_leaching":        _mortar_leaching_time,
-    "carbonation_shrinkage":  _carbonation_shrinkage_time,
-    "redundancy_exhaustion":  _redundancy_exhaustion_time,
+MODES = {
+    "compression_crushing":   compression_crushing,
+    "joint_shear":            joint_shear,
+    "foundation_settlement":  foundation_settlement,
+    "freeze_thaw_damage":     freeze_thaw_damage,
+    "water_intrusion":        water_intrusion,
+    "material_creep":         material_creep,
+    "erosion":                erosion,
 }
 
 
-# ─── public API ───────────────────────────────────────────────────────────────
+def failure_times(s) -> dict:
+    """
+    Returns {mode_name: years_to_failure}.
+    Accepts any object with material/geometry/loads/environment attributes.
+    If the object carries a _quality_factor attribute (set by archetypes.make),
+    all finite times are scaled by it — better workmanship extends life.
+    """
+    q = getattr(s, "_quality_factor", 1.0)
+    raw = {name: fn(s) for name, fn in MODES.items()}
+    return {n: (t * q if t < INF else INF) for n, t in raw.items()}
 
-def failure_times(s) -> Dict[str, float]:
-    """Return {mode_name: years_to_failure} for all six modes."""
-    return {name: fn(s) for name, fn in _MODES.items()}
 
-
-def critical_mode(s) -> Tuple[str, float]:
-    """Return (mode_name, time_yr) for the mode that fires first."""
+def critical_mode(s):
+    """Returns (mode_name, years_to_failure) for the mode that occurs FIRST."""
     times = failure_times(s)
-    name  = min(times, key=lambda k: times[k])
+    name = min(times, key=times.get)      # shortest time = fails first
     return name, times[name]

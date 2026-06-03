@@ -118,13 +118,11 @@ _CATALOGUE: dict[str, MaterialProps] = {
 ARCHETYPES: list[str] = list(_CATALOGUE.keys())
 
 
-class Structure:
+class ArchetypeInstance:
     """
-    A material archetype instantiated in a specific environment.
-    Produced by make(); consumed by failure_modes and degradation.
-
-    quality_factor: lognormal workmanship/material variability drawn by the
-    caller (simulate.py). Scales all failure times multiplicatively.
+    Internal record: MaterialProps + environment + quality factor.
+    Used by degradation.py for graph-based simulation and load-sharing math.
+    Distinct from structure.Structure (which failure_modes.py consumes).
     """
     __slots__ = ("name", "props", "env", "initial_redundancy", "quality_factor")
 
@@ -136,7 +134,7 @@ class Structure:
         self.quality_factor     = quality_factor
 
     def __repr__(self) -> str:
-        return f"Structure({self.name}, R0={self.initial_redundancy}, q={self.quality_factor:.2f})"
+        return f"ArchetypeInstance({self.name}, R0={self.initial_redundancy}, q={self.quality_factor:.2f})"
 
 
 def load_sharing_factor(props: MaterialProps) -> float:
@@ -152,8 +150,30 @@ def load_sharing_factor(props: MaterialProps) -> float:
     return 1.0 - math.exp(-3.0 * ratio)
 
 
-def make(archetype: str, env, quality_factor: float = 1.0) -> Structure:
-    """Instantiate an archetype in an environment."""
+def make(archetype: str, env, quality_factor: float = 1.0):
+    """
+    Return a structure.Structure for the given archetype placed in env.
+    quality_factor is forwarded to failure_modes via structure.Structure's
+    environment field (simulate.py wraps env before passing here).
+    """
+    import copy
+    from structure import make_structure
     if archetype not in _CATALOGUE:
         raise ValueError(f"Unknown archetype '{archetype}'. Options: {ARCHETYPES}")
-    return Structure(archetype, _CATALOGUE[archetype], env, quality_factor)
+    # Settlement failure only meaningful in saturated clay (gw >= 0.50).
+    # Below that threshold it isn't the dominant mechanism; zero it out so
+    # foundation_settlement doesn't swamp all other modes in dry/FT/seismic
+    # regimes where groundwater stays low.
+    if env.groundwater_level < 0.50:
+        env = copy.copy(env)
+        env.settlement_rate = 0.0
+    s = make_structure(archetype, env)
+    s._quality_factor = quality_factor
+    return s
+
+
+def make_instance(archetype: str, env, quality_factor: float = 1.0) -> ArchetypeInstance:
+    """Return an ArchetypeInstance (MaterialProps-based) for graph/degradation use."""
+    if archetype not in _CATALOGUE:
+        raise ValueError(f"Unknown archetype '{archetype}'. Options: {ARCHETYPES}")
+    return ArchetypeInstance(archetype, _CATALOGUE[archetype], env, quality_factor)
