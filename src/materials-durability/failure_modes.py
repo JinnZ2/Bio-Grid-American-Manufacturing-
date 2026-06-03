@@ -121,6 +121,25 @@ def erosion(s: Structure) -> float:
     return _safe(budget / per_year)
 
 
+def thermal_melt(s: Structure) -> float:
+    """
+    Seasonal melt failure — gated to materials with thermal_sensitivity > 0
+    (ice, snow). Returns the planned service life in years; warm environments
+    shorten it proportionally. thermal_sensitivity = 0 returns INF so this
+    mode is invisible for all permanent / non-ephemeral archetypes.
+
+    Renewal lens: this "failure" is the design intent, not a defect.
+    """
+    ts = s.material.thermal_sensitivity
+    if ts <= 0:
+        return INF
+    # base_life = 1 / thermal_sensitivity (ice ≈ 0.5yr, snow ≈ 0.25yr)
+    base_life = 1.0 / ts
+    # Above 0°C the structure melts sooner; below 0°C it lasts longer (capped).
+    temp_factor = max(0.5, 1.0 - 0.05 * max(0.0, s.environment.temperature_c))
+    return _safe(base_life * temp_factor)
+
+
 MODES = {
     "compression_crushing":   compression_crushing,
     "joint_shear":            joint_shear,
@@ -129,6 +148,7 @@ MODES = {
     "water_intrusion":        water_intrusion,
     "material_creep":         material_creep,
     "erosion":                erosion,
+    "thermal_melt":           thermal_melt,
 }
 
 

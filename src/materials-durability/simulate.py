@@ -93,8 +93,8 @@ _RAW: Dict[str, Dict[str, Tuple[float, float]]] = {
     },
 
     # Benign: low frost, low salt, low seismic, stable soils.
-    # Pure redundancy contest: dry_stone's R0=4 + lateral_ties=6 wins.
-    "stable": {
+    # Pure redundancy contest: dry_stone's R0=4 + lateral_ties=6 wins at ~91%.
+    "temperate_stable": {
         "temperature_c":      (14.0, 4.0),
         "humidity_pct":       (58.0, 10.0),
         "groundwater_level":  (0.18, 0.08),

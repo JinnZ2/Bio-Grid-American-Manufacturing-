@@ -25,14 +25,13 @@ CAPACITY_THRESHOLD = 0.0
 
 _SAMPLE_YEARS = [1, 5, 10, 25, 50, 100, 150, 200, 300, 500, 750, 1000]
 
-# Map failure_modes archetype names -> graph.py archetype keys
-_GRAPH_KEY = {
-    "roman_pozzolan":       "roman_pozzolan",
-    "dry_stone":            "dry_stone",
-    "reinforced_concrete":  "modern_reinforced",
-    "lime_mortar":          "timber_laced",
-    "portland_unreinforced":"massive_arch",
-}
+# All 18 archetype names match their graph topology key directly.
+_GRAPH_KEY = {a: a for a in [
+    "granite", "field_stone", "roman_pozzolan", "massive_arch", "concrete",
+    "modern_reinforced", "lumber", "dry_stone",
+    "timber_laced", "treehouse", "ice", "snow", "cob", "bamboo",
+    "bamboo_and_clay", "willow_and_clay", "sod", "straw",
+]}
 
 # Annual edge damage scale factor (calibrated so critical edges fail in ~200–600yr)
 _DAMAGE_SCALE = 0.005
@@ -117,14 +116,34 @@ def simulate_life_graph(archetype_name: str, env, years: int = 1000,
     When damage exceeds its (jittered) capacity the edge is removed.
     Collapse = no source→sink path (graph.connected() == False).
 
+    Thermal-melt branch: ice/snow use the analytical thermal_melt time
+    (from failure_modes) instead of edge damage, since their failure is
+    driven by temperature rather than material fatigue.
+
     Load concentration: as edges on a column are lost, surviving edges carry
     more load (moderated by g.load_share from lateral ties).
     """
     from graph import build_graph
+    from archetypes import make as make_struct
+    from failure_modes import thermal_melt as _thermal_melt
 
     gkey = _GRAPH_KEY.get(archetype_name)
     if gkey is None:
         raise ValueError(f"No graph topology for '{archetype_name}'")
+
+    # Thermal-melt branch: structure dissolves at a fixed year
+    s_probe = make_struct(archetype_name, env, quality_factor)
+    melt_yr = _thermal_melt(s_probe)
+    if melt_yr < float("inf"):
+        melt_int = max(1, int(math.ceil(melt_yr)))
+        trajectory = [(yr, 0, 0.0) for yr in _SAMPLE_YEARS if yr <= melt_int]
+        if not trajectory or trajectory[-1][0] != melt_int:
+            trajectory.append((melt_int, 0, 0.0))
+        return {
+            "initial_redundancy": 0,
+            "collapse_year":      melt_int,
+            "trajectory":         trajectory,
+        }
 
     g           = build_graph(gkey)
     initial_r0  = g.redundancy()

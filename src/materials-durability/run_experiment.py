@@ -18,6 +18,7 @@ from simulate import survival_surface, REGIMES, draw_env
 from degradation import simulate_life
 from failure_modes import failure_times, critical_mode
 from archetypes import make, ARCHETYPES
+from renewal import compare as renewal_compare
 import random
 
 BAR = "=" * 74
@@ -90,6 +91,7 @@ def main():
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--life", default=None, choices=ARCHETYPES)
     ap.add_argument("--modes", default=None, choices=ARCHETYPES)
+    ap.add_argument("--renewal", action="store_true")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args()
 
@@ -98,6 +100,23 @@ def main():
         data = {r: survival_surface(r, horizon=args.horizon, n=args.n, seed=args.seed)
                 for r in regimes}
         print(json.dumps(data, indent=2))
+        return
+
+    if args.renewal:
+        regime = args.regime or "temperate_stable"
+        surf = survival_surface(regime, horizon=args.horizon, n=args.n, seed=args.seed)
+        medians = {a: r["median_collapse"] for a, r in surf.items()}
+        rows = renewal_compare(medians, horizon=args.horizon)
+        print(BAR)
+        print(f"RENEWAL LENS  regime={regime}  horizon={args.horizon}yr  n={args.n}")
+        print(BAR)
+        hdr = f"{'archetype':<22}{'intent':<11}{'fitness':>7}  {'sub_debt_flux':>14}  {'build_flux':>10}  verdict"
+        print(hdr)
+        print("-" * 74)
+        for r in rows:
+            print(f"{r['archetype']:<22}{r['intent']:<11}{r['fitness']:>7.3f}  "
+                  f"{r['substrate_debt_flux']:>14.5f}  {r['build_burden_flux']:>10.5f}  {r['verdict']}")
+        print(BAR)
         return
 
     if args.life:

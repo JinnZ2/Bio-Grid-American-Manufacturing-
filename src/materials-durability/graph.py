@@ -142,19 +142,41 @@ def _layered(width, depth, lateral, water_rate, ft_rate, shear_cap, name, jitter
     return g
 
 
+_TOPOLOGIES = {
+    # ── PERMANENT ─────────────────────────────────────────────────────────────
+    # width = independent foundation columns → R0 ceiling
+    # lateral → load_share = 1/(1+1.5*lateral); slows cascade, does NOT add R0
+    "granite":          dict(width=2,  depth=3, lateral=0.10, water_rate=0.05, ft_rate=0.20, shear_cap=0.90),
+    "field_stone":      dict(width=3,  depth=3, lateral=0.40, water_rate=0.30, ft_rate=0.40, shear_cap=0.65),
+    "roman_pozzolan":   dict(width=4,  depth=3, lateral=0.30, water_rate=0.15, ft_rate=0.40, shear_cap=0.85),
+    "massive_arch":     dict(width=3,  depth=3, lateral=0.50, water_rate=0.40, ft_rate=0.50, shear_cap=0.90),
+    "concrete":         dict(width=2,  depth=3, lateral=0.30, water_rate=0.50, ft_rate=0.50, shear_cap=0.85),
+    "modern_reinforced":dict(width=5,  depth=3, lateral=0.60, water_rate=0.80, ft_rate=0.50, shear_cap=0.95),
+    "lumber":           dict(width=5,  depth=3, lateral=0.70, water_rate=0.70, ft_rate=0.30, shear_cap=0.75),
+    "dry_stone":        dict(width=8,  depth=4, lateral=1.00, water_rate=0.60, ft_rate=0.70, shear_cap=0.70),
+    # ── RENEWAL ───────────────────────────────────────────────────────────────
+    "timber_laced":     dict(width=6,  depth=4, lateral=0.85, water_rate=0.90, ft_rate=0.60, shear_cap=0.75),
+    "treehouse":        dict(width=4,  depth=2, lateral=0.50, water_rate=0.80, ft_rate=0.20, shear_cap=0.60),
+    # ice/snow: no FT or water edge damage; thermal_melt governs analytically
+    "ice":              dict(width=3,  depth=2, lateral=0.40, water_rate=0.00, ft_rate=0.00, shear_cap=0.60),
+    "snow":             dict(width=2,  depth=2, lateral=0.30, water_rate=0.00, ft_rate=0.00, shear_cap=0.50),
+    "cob":              dict(width=5,  depth=3, lateral=0.40, water_rate=0.90, ft_rate=0.70, shear_cap=0.55),
+    "bamboo":           dict(width=8,  depth=3, lateral=0.90, water_rate=0.80, ft_rate=0.30, shear_cap=0.65),
+    "bamboo_and_clay":  dict(width=6,  depth=3, lateral=0.80, water_rate=0.75, ft_rate=0.35, shear_cap=0.60),
+    "willow_and_clay":  dict(width=6,  depth=3, lateral=0.70, water_rate=0.85, ft_rate=0.40, shear_cap=0.55),
+    "sod":              dict(width=4,  depth=2, lateral=0.40, water_rate=0.80, ft_rate=0.50, shear_cap=0.45),
+    "straw":            dict(width=3,  depth=2, lateral=0.30, water_rate=0.90, ft_rate=0.60, shear_cap=0.50),
+}
+
+
 def build_graph(archetype_key, base_scale=1):
     """
     archetype_key selects topology character. Width (independent columns) is the
     redundancy driver and is archetype-specific.
     """
-    A = {
-        # width = independent foundation columns -> R0 ceiling
-        "dry_stone":        dict(width=8, lateral=1.0, water_rate=0.6, ft_rate=0.7, shear_cap=0.7, depth=4),
-        "massive_arch":     dict(width=3, lateral=0.5, water_rate=0.4, ft_rate=0.5, shear_cap=0.9, depth=3),
-        "roman_pozzolan":   dict(width=4, lateral=0.3, water_rate=0.15, ft_rate=0.4, shear_cap=0.85, depth=3),
-        "modern_reinforced":dict(width=5, lateral=0.6, water_rate=0.8, ft_rate=0.5, shear_cap=0.95, depth=3),
-        "timber_laced":     dict(width=6, lateral=0.85, water_rate=0.9, ft_rate=0.6, shear_cap=0.75, depth=4),
-    }[archetype_key]
+    if archetype_key not in _TOPOLOGIES:
+        raise ValueError(f"No graph topology for '{archetype_key}'")
+    A = _TOPOLOGIES[archetype_key]
     return _layered(width=A["width"] * base_scale, depth=A["depth"], lateral=A["lateral"],
                     water_rate=A["water_rate"], ft_rate=A["ft_rate"],
                     shear_cap=A["shear_cap"], name=archetype_key)
