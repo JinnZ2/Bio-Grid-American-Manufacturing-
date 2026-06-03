@@ -117,6 +117,72 @@ _CATALOGUE: dict[str, MaterialProps] = {
 
 ARCHETYPES: list[str] = list(_CATALOGUE.keys())
 
+# Full registry: callers can iterate REGISTRY.keys() to enumerate archetypes.
+REGISTRY: dict = _CATALOGUE
+
+# ---------------------------------------------------------------------------
+# Design-philosophy table — consumed by renewal.py
+# ---------------------------------------------------------------------------
+# intent           "permanent" | "renewal"
+# design_life_yr   intended lifespan at original specification
+# renewal_cost     [0,1] fractional effort to fully rebuild (1 = most costly)
+# return_to_substrate [0,1] fraction of materials that return to natural cycle
+# ---------------------------------------------------------------------------
+
+_PHILOSOPHY: dict[str, dict] = {
+    # Opus caementicium was engineered for permanence: Pantheon, Pantheon dome,
+    # Caesarea breakwater — all designed once, maintained minimally for millennia.
+    # Demolition is essentially impossible without explosives; volcanic ash matrix
+    # locks up permanently.
+    "roman_pozzolan": {
+        "intent":               "permanent",
+        "design_life_yr":       2000,
+        "renewal_cost":         0.95,   # most expensive to source volcanic pozzolan + mass labour
+        "return_to_substrate":  0.05,   # tobermorite matrix inert; near-zero return
+    },
+    # Dry-stone traditions (Inca, Celtic field walls, Scottish dykes) are explicitly
+    # renewal-oriented: walls are re-stacked every few generations, stones returned
+    # to the field. No binding material; full substrate return.
+    "dry_stone": {
+        "intent":               "renewal",
+        "design_life_yr":       100,    # planned cadence: re-stack every ~100yr
+        "renewal_cost":         0.20,   # labour only, no binder; cheapest rebuild
+        "return_to_substrate":  0.95,   # stones back to landscape
+    },
+    # Modern RC is nominal-permanent (100yr design life) but in practice renewal
+    # is costly: demolition + rebar separation + concrete crushing. Rebar can be
+    # recycled (~40–60%) but concrete aggregate mostly landfilled.
+    "reinforced_concrete": {
+        "intent":               "permanent",
+        "design_life_yr":       100,
+        "renewal_cost":         0.90,
+        "return_to_substrate":  0.10,
+    },
+    # Lime mortar's re-carbonation makes masonry separable: bricks/stones pry free,
+    # lime dust dissolves. Many historic traditions explicitly planned phased repair.
+    "lime_mortar": {
+        "intent":               "renewal",
+        "design_life_yr":       200,
+        "renewal_cost":         0.40,   # moderate; skilled mortaring but reusable units
+        "return_to_substrate":  0.70,   # masonry units fully reusable; lime re-absorbs
+    },
+    # Plain Portland: cheaper to build than RC but equally difficult to dispose of.
+    # No rebar to reclaim; rubble is inert fill at best.
+    "portland_unreinforced": {
+        "intent":               "permanent",
+        "design_life_yr":       75,
+        "renewal_cost":         0.80,
+        "return_to_substrate":  0.05,
+    },
+}
+
+
+def philosophy(archetype_key: str) -> dict:
+    """Return the design-philosophy dict for an archetype (for renewal.py)."""
+    if archetype_key not in _PHILOSOPHY:
+        raise ValueError(f"No philosophy entry for '{archetype_key}'")
+    return _PHILOSOPHY[archetype_key]
+
 
 class ArchetypeInstance:
     """
