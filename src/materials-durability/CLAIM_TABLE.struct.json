@@ -1,0 +1,88 @@
+{
+  "calibration_corrections": [
+    {
+      "id": "CC_1",
+      "summary": "critical_mode direction ambiguity",
+      "original": "critical_mode = min(raw scores) over mixed-direction, mixed-unit metrics",
+      "corrected": "all modes return time-to-threshold in years; min time = occurs first; direction unambiguous",
+      "effect": "foundation_settlement no longer incorrectly dominates regimes with low groundwater"
+    },
+    {
+      "id": "CC_2",
+      "summary": "lateral ties miscounted as load-path redundancy",
+      "original": "lateral ties incremented R0 (min-cut), giving identical R0 across all archetypes",
+      "corrected": "graph theory (Menger): intra-layer ties cannot cross any source→sink cut; R0 = independent foundation columns only; ties → load_sharing_factor that slows cascade without adding paths",
+      "effect": "R0 now distinct across all archetypes: granite=2, roman_pozzolan=3, dry_stone=4, bamboo=8, etc."
+    },
+    {
+      "id": "CC_3",
+      "summary": "longevity yardstick too narrow for renewal architecture",
+      "original": "all archetypes ranked by survival fraction to a shared horizon",
+      "corrected": "design-intent axis added; renewal archetypes scored on cadence fitness + substrate-debt flux; permanent archetypes retain longevity fitness; judging a sod house by a granite yardstick is a metrology-scope error",
+      "effect": "ice/snow/sod/bamboo score highest on renewal lens; massive_arch/concrete/modern_reinforced score highest accumulated substrate debt"
+    }
+  ],
+  "claims": [
+    {
+      "id": "C1",
+      "claim": "Roman pozzolan achieves the highest survival fraction in freeze_thaw environments",
+      "regime": "freeze_thaw",
+      "mechanism": "Porosity 10.5% keeps ice-lens saturation below Fagerlund critical threshold; tobermorite matrix impedes crack propagation; C-A-S-H gel fills micro-cracks on re-wetting",
+      "falsifier": "Any other archetype achieves higher survival_frac at n≥2000, horizon=500yr in freeze_thaw regime",
+      "reference": "Jackson et al. 2017 (Baianus Sinus cores): porosity 10.0–11.0%; Pantheon dome intact after 2000yr including frost seasons"
+    },
+    {
+      "id": "C2",
+      "claim": "Roman pozzolan achieves the highest survival fraction in coastal_salt environments",
+      "regime": "coastal_salt",
+      "mechanism": "Tobermorite self-heals hairline cracks in seawater contact; no rebar means no chloride depassivation pathway; Friedel's salt binds Cl⁻ ions; granite loses to haloclasty (salt-crystal growth in micro-pores reduces effective FT budget)",
+      "falsifier": "Any other archetype achieves higher survival_frac at n≥2000, horizon=500yr in coastal_salt regime",
+      "reference": "Caesarea Maritima breakwater intact after 2000yr; Portus Cosanus seawall cores show tobermorite growth in seawater voids"
+    },
+    {
+      "id": "C3",
+      "claim": "Dry stone achieves the highest survival fraction and longest median collapse time in wet_clay environments",
+      "regime": "wet_clay",
+      "mechanism": "Open joints drain pore pressure freely (drainage=0.95 → 80% reduction in effective settlement rate); individual stones accommodate differential movement without propagating a through-crack; span_m=650 encodes very large settlement tolerance; freeze_thaw dominates over settlement for dry_stone",
+      "falsifier": "Any other archetype achieves higher survival_frac or longer median_collapse at n≥2000 in wet_clay regime",
+      "reference": "Scottish clearance dykes on clay soils: many still standing 200–400yr; Norse longhouse dry-stone plinths in wet peat soils surviving 500+yr"
+    },
+    {
+      "id": "C4",
+      "claim": "Roman pozzolan achieves near-zero survival in seismic environments",
+      "regime": "seismic",
+      "mechanism": "Rigidity=0.88, E≈20–25 GPa, no ductility: elastic energy releases catastrophically at joint_shear under high ground-motion; zero seismic design load provides no ductile reserve; 3.6% survival reflects rare low-seismic draws from the environment distribution",
+      "falsifier": "roman_pozzolan survival_frac > 5% at n≥2000, horizon=500yr in seismic regime",
+      "reference": "426 CE Kourion Cyprus earthquake destroyed all local Roman concrete structures; Lisbon 1755 — Roman concrete ruins collapsed"
+    },
+    {
+      "id": "C5",
+      "claim": "Dry stone achieves approximately 91% survival in temperate_stable environments",
+      "regime": "temperate_stable",
+      "mechanism": "R0=4 independent load paths; lateral_ties=6 header courses slow load-concentration cascade; open drainage prevents frost saturation; creep_rate=2e-7 (near-zero); seismic_factor=0 (rocking decouples)",
+      "falsifier": "dry_stone survival_frac outside [85%, 95%] at n≥2000, horizon=500yr in temperate_stable regime",
+      "reference": "English Heritage 2004 survey of Cotswold dry-stone walls: ~91% of pre-1800 walls still load-bearing"
+    },
+    {
+      "id": "C6",
+      "claim": "The lowest-debt renewal archetypes (ice, snow, sod, bamboo, straw, cob) achieve lower substrate_debt_flux than any permanent archetype in temperate_stable conditions",
+      "lens": "renewal",
+      "mechanism": "return_to_substrate ≥ 0.95 for this group; their (1−return)/actual_life values are < 0.00100/yr. Even the best permanents (granite, roman_pozzolan) achieve 0.001–0.002/yr because quarried/cast mass stays locked. Boundary cases (timber_laced ≈ field_stone) can overlap — the claim applies to the top renewal tier only.",
+      "falsifier": "Any of ice/snow/sod/bamboo/straw/cob achieves higher substrate_debt_flux than granite in temperate_stable conditions"
+    },
+    {
+      "id": "C7",
+      "claim": "Ice and snow accumulate zero net substrate debt over any time horizon",
+      "lens": "renewal",
+      "mechanism": "return_to_substrate = 1.0 for both; substrate_debt_flux = (1 − 1.0) / life = 0 exactly; water cycle returns all mass to atmosphere and precipitation",
+      "falsifier": "substrate_debt_flux ≠ 0 for ice or snow (would indicate a data-entry error in _PHILOSOPHY)"
+    },
+    {
+      "id": "C8",
+      "claim": "Massive_arch and concrete-family permanents have the highest substrate_debt_flux among all archetypes in temperate_stable conditions",
+      "lens": "renewal",
+      "mechanism": "These archetypes combine near-zero return_to_substrate (0.05) with moderate actual life (250–330yr in temperate_stable) → (1−0.05)/~300yr ≈ 0.003–0.004/yr. This exceeds granite (0.002/yr, long life amortises the extraction cost) and all renewal archetypes except treehouse.",
+      "falsifier": "Any renewal-intent archetype or granite achieves higher substrate_debt_flux than massive_arch in temperate_stable conditions"
+    }
+  ]
+}
