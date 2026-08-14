@@ -79,6 +79,10 @@
 
 ## 🎯 Global Market Penetration (2026–2030)
 
+> **Regional market sizes below are unsourced.** No market study underlies them. They are
+> retained as scoping estimates and should not be cited as figures — see
+> [SCIENCE_UPDATE_2026.md](SCIENCE_UPDATE_2026.md).
+
 ### European Union ($150B)
 - Germany: Automotive + chemicals
 - Poland: Supply chain reshoring
@@ -102,7 +106,8 @@
 ## 🆚 Competitive Advantages
 
 ### Vs. Chinese Tech:
-- 99.95% uptime vs 99.2%
+- 99.95% uptime target vs 99.2% baseline — **both figures unsourced.** No comparison
+  study underlies this; do not use it in export or procurement material
 - Bio-grid is cyber-resilient + modular
 - AI-driven vs static automation
 - Carbon-negative vs carbon-intensive

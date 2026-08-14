@@ -80,7 +80,10 @@ Export Partners:
 - **Africa**: Bio-grid development partnerships
 
 Export Goals:
-- $150B/year bio-grid technology exports by 2040
+- **$150B/year bio-grid technology exports by 2040** — *aspiration, not a projection.* No
+  public market-size denominator supports this; it exceeds the revenue of the entire global
+  grid-equipment sector by a wide margin. Flagged 2026 — see
+  [SCIENCE_UPDATE_2026.md](SCIENCE_UPDATE_2026.md). Do not cite as a figure.
 - Modular replication in 20+ countries
 - Standardized global bio-grid infrastructure
 

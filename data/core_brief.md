@@ -21,15 +21,20 @@ A structured summary of the design ideology and computational principles behind 
 
 ---
 
-### Performance Benchmarks
+### Performance Targets
 
-| Metric                  | Value              |
-|-------------------------|--------------------|
-| Reliability             | 99.95%             |
-| Efficiency Gain         | 42%                |
-| Renewability Integration | 85%               |
-| Cost Reduction          | 35%                |
-| Cyberattack Resistance  | 95%                |
+> **These are design targets, not benchmarks.** Nothing here has been measured or derived —
+> the 2026 review found no stated method, baseline or source behind any of them. "Benchmark"
+> implied a validation that does not exist, so the heading is corrected too. See
+> [SCIENCE_UPDATE_2026.md](../docs/SCIENCE_UPDATE_2026.md).
+
+| Metric                  | Target             | Status |
+|-------------------------|--------------------|--------|
+| Reliability             | 99.95%             | Unvalidated — quantify with LBNL ICE Calculator |
+| Efficiency Gain         | 42%                | Underived — no baseline stated |
+| Renewability Integration | 85%               | Underived |
+| Cost Reduction          | 35%                | Underived — 3–8% is the derived savings band |
+| Cyberattack Resistance  | 95%                | Not a measurable quantity as stated |
 
 ---
 

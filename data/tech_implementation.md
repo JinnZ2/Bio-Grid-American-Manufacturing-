@@ -6,7 +6,14 @@ A breakdown of neural controllers, nodes, flow logic, and integration subsystems
 
 ## Neural Controllers
 
-- 2000 NVIDIA H100 GPUs
+> **Updated August 2026.** H100 is superseded hardware. Sizing note below — the original
+> GPU counts describe a training campus, not a grid control plane. See
+> [SCIENCE_UPDATE_2026.md §3](../docs/SCIENCE_UPDATE_2026.md).
+
+- **7 × NVIDIA GB200 NVL72** (504 Blackwell GPUs, 840–924 kW, ~$29–38M incl. facility)
+  — replaces the previous *2000 NVIDIA H100 GPUs*, which at ~10–11 kW per 8-GPU DGX
+  implies **~2.7 MW** of IT load for a regional controller. State estimation, contingency
+  analysis and optimal power flow are inference workloads; O(1 MW) is the right scale.
 - 144-fiber neural mesh
 - 5000 edge nodes
 - 25000 IoT sensor units

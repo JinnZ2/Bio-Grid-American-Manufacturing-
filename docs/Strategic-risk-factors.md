@@ -71,8 +71,8 @@ This file outlines the **macro-risks**, **chokepoints**, and **trigger condition
 
 | Signal | Meaning | Response |
 |--------|---------|----------|
-| Grid reliability ≥ 99.95% | Tech validated | Begin Phase 4 (Interstate) |
-| Energy cost ↓ ≥ 30% | Economic ROI proven | Begin industry onboarding |
+| Grid reliability ≥ 99.95% | **Target, not yet validated** | Begin Phase 4 (Interstate) |
+| Energy cost ↓ ≥ 30% | **Threshold underived** — 3–8% is the derived savings band; 30% would be ~$5B/yr against a $17.3B/yr regional market | Begin industry onboarding |
 | Workforce certified ≥ 10k | Capacity proven | Scale node fabrication |
 | Public approval ≥ 60% | Sociopolitical alignment | Launch national pitch |
 

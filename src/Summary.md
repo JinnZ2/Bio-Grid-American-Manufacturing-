@@ -17,23 +17,23 @@ BioGrid 2.0 proposes a **neural-style infrastructure mesh**:
 
 ## 📂 Key Documents
 
-- [`docs/risk_assessment.md`](docs/risk_assessment.md)  
+- [`docs/risk_assessment.md`](../docs/risk_assessment.md)  
   Full matrix of strategic, technical, and economic risks
 
-- [`docs/technical_feasibility.md`](docs/technical_feasibility.md)  
+- [`docs/Technical-feasibility.md`](../docs/Technical-feasibility.md)  
   Validates project against real-world constraints
 
-- [`docs/implementation_matrix.yaml`](docs/implementation_matrix.yaml)  
+- [`docs/implementation_matrix.yaml`](../docs/implementation_matrix.yaml)  
   Deploy plan: dependencies, fallbacks, regions, timing
 
-- [`docs/strategic_risk_factors.md`](docs/strategic_risk_factors.md)  
+- [`docs/Strategic-risk-factors.md`](../docs/Strategic-risk-factors.md)  
   Big-picture threats and national-scale trigger points
 
 ---
 
 ## 🐜 Live Demo Component
 
-- [`src/components/AntSwarmKnowledge.jsx`](src/components/AntSwarmKnowledge.jsx)  
+- [`src/components/AntSwarmKnowledge.jsx`](components/AntSwarmKnowledge.jsx)  
   A React-based simulation of swarm intelligence used to model distributed discovery and adaptive behavior
 
 ---
