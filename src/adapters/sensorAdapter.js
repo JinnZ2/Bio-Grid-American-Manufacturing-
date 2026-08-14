@@ -16,19 +16,19 @@ export async function fetchSensorData() {
     console.warn('⚠️ Using fallback sensor data:', err);
     return [
       {
-        id: "sensor_air_01",
-        type: "air_quality",
+        id: 'sensor_air_01',
+        type: 'air_quality',
         value: 0.87,
-        location: "Node-3",
-        timestamp: Date.now()
+        location: 'Node-3',
+        timestamp: Date.now(),
       },
       {
-        id: "sensor_temp_07",
-        type: "temperature",
+        id: 'sensor_temp_07',
+        type: 'temperature',
         value: 22.3,
-        location: "Node-5",
-        timestamp: Date.now()
-      }
+        location: 'Node-5',
+        timestamp: Date.now(),
+      },
     ];
   }
 }

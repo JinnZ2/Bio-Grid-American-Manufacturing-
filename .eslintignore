@@ -1,0 +1,5 @@
+node_modules/
+coverage/
+
+# Truncated on arrival — see .prettierignore for the full explanation.
+src/BioGridTechnicalImplementation.js

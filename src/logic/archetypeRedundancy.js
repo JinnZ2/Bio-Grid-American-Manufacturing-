@@ -23,12 +23,12 @@
 // ─── Archetype definitions ────────────────────────────────────────────────────
 
 export const ARCHETYPES = [
-  { id: "single-column",   columns: 1, lateralTies: 0, layers: 3 },
-  { id: "dual-parallel",   columns: 2, lateralTies: 0, layers: 3 },
-  { id: "braced-dual",     columns: 2, lateralTies: 2, layers: 3 },
-  { id: "triple-parallel", columns: 3, lateralTies: 0, layers: 3 },
-  { id: "seismic-frame",   columns: 3, lateralTies: 4, layers: 4 },
-  { id: "full-grid",       columns: 4, lateralTies: 6, layers: 4 },
+  { id: 'single-column', columns: 1, lateralTies: 0, layers: 3 },
+  { id: 'dual-parallel', columns: 2, lateralTies: 0, layers: 3 },
+  { id: 'braced-dual', columns: 2, lateralTies: 2, layers: 3 },
+  { id: 'triple-parallel', columns: 3, lateralTies: 0, layers: 3 },
+  { id: 'seismic-frame', columns: 3, lateralTies: 4, layers: 4 },
+  { id: 'full-grid', columns: 4, lateralTies: 6, layers: 4 },
 ];
 
 // ─── R0: independent load paths (min-cut of the layered graph) ───────────────
@@ -61,8 +61,8 @@ export function computeLoadSharingFactor(archetype) {
   const { columns: n, lateralTies: t, layers } = archetype;
   if (n <= 1 || t === 0) return 0;
   const maxTies = (n - 1) * layers;
-  const ratio   = Math.min(t / maxTies, 1.0);
-  return 1 - Math.exp(-3 * ratio);   // saturates near 1 as ties → maxTies
+  const ratio = Math.min(t / maxTies, 1.0);
+  return 1 - Math.exp(-3 * ratio); // saturates near 1 as ties → maxTies
 }
 
 // ─── Per-edge damage rate ─────────────────────────────────────────────────────
@@ -71,23 +71,43 @@ export function computeLoadSharingFactor(archetype) {
  * Effective fractional load on the most-stressed surviving column after
  * `failedColumns` have been removed.
  *
- * Without sharing: each column carries 1/surviving of total load.
- * With sharing:    the lateral ties reduce overload on any single column.
+ * The uniform share is 1/surviving. Under imperfect sharing the peak column
+ * carries MORE than that; lateral ties pull the peak back down toward uniform.
+ * The return value is therefore always ≥ 1/surviving and ≤ 1.
  *
  * Lower return value = slower damage accumulation = better durability.
  * Note: R0 is still determined by columns; this only modulates degradation rate.
+ *
+ * CORRECTED 2026 — load-conservation bug.
+ *   The prior form was  (1/surviving) · (1 − lsf·(1 − 1/surviving)),
+ *   which multiplied the already-uniform share by a factor < 1. That put the
+ *   peak column BELOW the average, so total load was not conserved: summed
+ *   across survivors, full-grid accounted for only 42% of the structure's
+ *   load and seismic-frame 48%. Every tied archetype leaked load; only the
+ *   zero-tie ones (lsf = 0) happened to balance.
+ *
+ *   The bracketed term was the interpolation itself, not a multiplier. Ties
+ *   redistribute load between columns — they cannot make it disappear.
+ *
+ *   This was invisible until a test runner was added in 2026; the module's
+ *   own test suite had never been executed. See legacy/README.md.
  *
  * @param {object} archetype
  * @param {number} failedColumns - how many columns have already failed
  */
 export function computeDamageRate(archetype, failedColumns = 0) {
-  const r0       = computeR0(archetype);
-  const lsf      = computeLoadSharingFactor(archetype);
+  const r0 = computeR0(archetype);
+  const lsf = computeLoadSharingFactor(archetype);
   const surviving = Math.max(r0 - failedColumns, 1);
-  const baseLoad  = 1 / surviving;
-  // Sharing reduces the concentration factor on the weakest survivor
-  const sharedLoad = baseLoad * (1 - lsf * (1 - 1 / surviving));
-  return sharedLoad;
+  const uniform = 1 / surviving;
+
+  // Concentration penalty: how much MORE than the uniform share the
+  // most-stressed column carries. Ranges from (2·surviving−1)/surviving at
+  // lsf = 0 down to 1.0 at lsf = 1 (perfect sharing → everyone at uniform).
+  // It is always ≥ 1, so peak × surviving ≥ 1 and load is never destroyed.
+  const concentration = 1 + (1 - lsf) * ((surviving - 1) / surviving);
+
+  return uniform * concentration;
 }
 
 // ─── Full archetype report ────────────────────────────────────────────────────
@@ -100,15 +120,13 @@ export function computeDamageRate(archetype, failedColumns = 0) {
  *   damageRate_minus1: fractional load per column after one column lost
  */
 export function analyzeArchetypes(archetypes = ARCHETYPES) {
-  return archetypes.map(a => ({
-    id:                a.id,
-    columns:           a.columns,
-    lateralTies:       a.lateralTies,
-    R0:                computeR0(a),
+  return archetypes.map((a) => ({
+    id: a.id,
+    columns: a.columns,
+    lateralTies: a.lateralTies,
+    R0: computeR0(a),
     loadSharingFactor: parseFloat(computeLoadSharingFactor(a).toFixed(4)),
     damageRate_intact: parseFloat(computeDamageRate(a, 0).toFixed(4)),
-    damageRate_minus1: a.columns > 1
-                         ? parseFloat(computeDamageRate(a, 1).toFixed(4))
-                         : null,
+    damageRate_minus1: a.columns > 1 ? parseFloat(computeDamageRate(a, 1).toFixed(4)) : null,
   }));
 }

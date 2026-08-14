@@ -7,7 +7,7 @@ export const useSwarmConfig = () => {
 
   useEffect(() => {
     fetch('/config/parameters.json')
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setConfig)
       .catch(() => {
         console.warn('⚠️ Failed to load swarm config. Using defaults.');
@@ -19,7 +19,7 @@ export const useSwarmConfig = () => {
           pheromone_decay: 0.01,
           swarm_refresh_rate: 100,
           ant_speed: 2,
-          randomness_factor: 0.3
+          randomness_factor: 0.3,
         });
       });
   }, []);

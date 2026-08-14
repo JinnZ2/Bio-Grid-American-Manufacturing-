@@ -80,6 +80,24 @@ Found by checking dimensions and convergence, not by disputing any concept.
 That fifth row matters as much as the others. A review that only ever confirms its own
 first guess is not running the method either.
 
+### Cycle 4 — code, once a test runner existed
+
+The repository had no `package.json` until 2026, so its test suites had **never been
+executed**. Adding a runner was itself a test, and it falsified things immediately.
+
+| Hypothesis | Test | Result | Revised claim |
+|---|---|---|---|
+| `computeDamageRate` models load correctly | Sum peak load × survivors | **Load not conserved** — full-grid accounted for 42% of the structure's load, seismic-frame 48%; every tied archetype leaked | Interpolate a concentration penalty ≥ 1; peak is now always ≥ uniform share |
+| "Braced-dual beats dual-parallel at −1 column (ties help)" | Run the assertion | **Both = 1.0** — with one survivor there is nobody to share with | Compare where sharing can act (both columns standing); added an explicit test that ties give no benefit at one survivor |
+| `src/Recovery-blowback-mitigation.js` is JavaScript | Parse it | Prose + one fenced block — it is **markdown** | Renamed to `.md` |
+| `src/BioGridTechnicalImplementation.js` is JavaScript | Parse it | **Truncated mid-expression**, unclosed braces, damaged before 2026 | Excluded from lint/format, documented in place; tail unrecoverable |
+| `mycelialGrowth.js` is a clean module | Parse it | Raw prose appended after the export | Trailing prose removed |
+
+The first row is the one that mattered. A test suite that cannot run is indistinguishable
+from a test suite that passes — and this one had been sitting green-by-assumption while the
+module underneath it destroyed load. **The absence of a runner was the real defect;** the
+formula bug was only what it concealed.
+
 ### Still unknown — the "search for unknowns" step
 
 Open questions, ranked by how much rests on them. These are the next rerun.

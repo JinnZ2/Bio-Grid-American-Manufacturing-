@@ -1,0 +1,11 @@
+node_modules/
+coverage/
+package-lock.json
+
+# Truncated on arrival — cannot be parsed or formatted.
+# The final statement is cut off mid-expression, leaving unclosed braces.
+# Verified identical at commit fb07207, so this is original damage, not
+# regression. Reconstructing the lost tail would mean inventing content, so
+# the file is documented in-place and excluded here instead.
+# See legacy/README.md (unknowns) and docs/SCIENCE_UPDATE_2026.md.
+src/BioGridTechnicalImplementation.js
