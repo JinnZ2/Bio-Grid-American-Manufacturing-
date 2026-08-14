@@ -82,8 +82,9 @@ biogrid-2.0/
 │   └── Economic-projections.md           # Derived projections
 ├── 🛠️ tools/
 │   └── derive_economics.py               # Reproducible cost derivation
-└── 🗄️ legacy/
-    └── pre-2026-refresh/                 # Superseded versions — do not cite
+└── 🗄️ legacy/                             # Superseded material — do not cite
+    ├── pre-2026-refresh/                 # Previous versions of live documents
+    └── obsolete/                         # Files removed entirely
 ```
 
 ---

@@ -11,7 +11,16 @@ If you want a current number, start at [REFERENCES.md](../REFERENCES.md).
 If you want to know why a number changed, read
 [docs/SCIENCE_UPDATE_2026.md](../docs/SCIENCE_UPDATE_2026.md).
 
+Two categories, kept apart because they became obsolete for different reasons:
+
+| Folder | Contents |
+|---|---|
+| [`pre-2026-refresh/`](#pre-2026-refresh) | Documents that still exist — these are their *previous versions* |
+| [`obsolete/`](#obsolete) | Files removed from the repository entirely — no current counterpart |
+
 ---
+
+<a id="pre-2026-refresh"></a>
 
 ## `pre-2026-refresh/`
 
@@ -49,6 +58,34 @@ copy still circulating elsewhere:
 | 500 H100 GPUs | Superseded hardware; 7 × GB200 NVL72 is the current equivalent |
 | 1–2 year AMOC collapse | RAPID observes 1.0 Sv/decade; not consistent with mid-century collapse |
 | `W(t+1) = φ·W(t) + ΔL·(1-φ)` | Diverges. φ > 1. Corrected to use 1/φ ≈ 0.618 |
+
+---
+
+<a id="obsolete"></a>
+
+## `obsolete/`
+
+Files **removed** from the repository. Unlike `pre-2026-refresh/`, these have no current
+version anywhere — they were dead, broken or superseded outright.
+
+| Archived file | Why it was removed |
+|---|---|
+| `docs/README_propaganda_version.md` | Unreferenced alternate README. Repeated five withdrawn claims verbatim — $85B, 340% ROI / 4.2-yr payback, 275k jobs, $150B/yr exports, 500 × H100 — with no indication they had been retracted. |
+| `src/components/Knowledge-nodes-import` | Broken scratch fragment, referenced nowhere. Not a valid module: `canvasRef` and `setKnowledgeNodes` are undefined, and its import resolves to `src/components/api/feeds`, which does not exist (the real file is `src/api/feeds.js`). `AntSwarmKnowledge.jsx` already implements the wiring it sketched. |
+| `src/config/Resilience-profiles` | Dead config. No extension, so nothing could `fetch` or `import` it; referenced nowhere; three of its four keys (`repairable`, `regrowAfterMs`, `requiresManualApproval`) appear in no source file in the repository. |
+
+The two markdown and JS-style files carry a banner. **`Resilience-profiles` does not** — it
+is valid JSON, and a banner would have broken it. It is byte-identical to the original.
+
+### Not archived — relocated instead
+
+One file looked obsolete and was not. `src/src/hooks/useSwarmConfig.js` sat under a
+duplicated `src/` prefix, but it is live code: `src/Summary.md` documents importing it, and
+the file's own header comment declares its intended path as `src/hooks/useSwarmConfig.js`.
+It was **moved there** rather than archived, and the empty `src/src/` tree removed.
+Archiving it would have broken the documented import.
+
+---
 
 ### A note on fidelity
 

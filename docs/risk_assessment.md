@@ -44,7 +44,7 @@
 |------|------------|-------|
 | CAPEX Overrun | Medium | 35% projected in worst case |
 | Deployment Delay | Medium-High | Weather, permitting, materials access |
-| ROI Uncertainty | Low | Conservative 4.2-year payback modeled |
+| ROI Uncertainty | **High** | 4.2-year payback withdrawn 2026 — implied 117% of the regional electricity market. Reliability value still unquantified. See [Economic_Impact.md](Economic_Impact.md) |
 | Public Opposition | Medium | Low in rural, moderate in urban junctions |
 | Private Sector Pullout | Low | Multilateral investment frameworks in place |
 
@@ -71,8 +71,13 @@
   - AI-to-node latency in ice/hard terrain zones
 - **Most Likely Failures:**
   - Phase delays, not outright system failures
-- **Best Case:** 75% success, 340% ROI, global export
+- **Best Case:** 75% success, benefit-cost ratio 1.5–3.0 once reliability value is
+  quantified, global export
 - **Worst Case:** 45% grid scale, 2.8X budget, political stalling
+
+> The previous "340% ROI" best case was withdrawn in 2026 — it implied an annual return of
+> 111% of the entire regional electricity market. Probability figures on this page remain
+> **unsourced estimates**, not modelled outputs.
 
 ---
 

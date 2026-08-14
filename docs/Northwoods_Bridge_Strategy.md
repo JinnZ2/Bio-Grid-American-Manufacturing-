@@ -116,15 +116,35 @@
 - Workforce: $15B
 
 ### Job Creation
-- Construction Phase: 125K jobs
-- Permanent Ops: 150K jobs
-- Total: 275K direct/indirect
 
-### ROI
-- Year 5 Impact: $48B/year
-- Year 10 Impact: $85B/year
-- Payback: 4.2 years
-- ROI: 340%
+> Re-derived August 2026 using PERI multipliers. See
+> [Economic_Impact.md](Economic_Impact.md).
+
+- Construction phase: **165K–205K jobs sustained** across the 5-year build
+  (direct + indirect + induced; 827K–1,025K job-years total)
+- Of which direct, on-site: **66K–103K**
+- Permanent grid O&M: **410–1,050 FTE** — cable crews, substation crews, control room
+
+The previous "150K permanent jobs" was not a grid-operations figure; operating 4,500 km and
+~90 substations accounts for roughly 0.5% of it. The remainder was reshored manufacturing
+employment, which follows from industrial policy rather than from building transmission.
+
+### Returns
+
+> **"Payback 4.2 years / ROI 340%" was withdrawn in the 2026 review.** The MN+WI+UP
+> electricity market totals **$17.3B/yr**. A 4.2-year payback on $85B implies $20.2B/yr —
+> **117% of everything the region spends on electricity**. A 340%/15-year ROI implies
+> $19.3B/yr, or 111%. Neither is available at any level of technical performance.
+
+- Derived congestion and dispatch savings: **$0.5B–$1.4B/yr** (3–8% of regional spend)
+- 15-year benefit-cost ratio on energy savings alone: **0.09–0.52**
+
+Below 1.0, as expected — **no transmission project is justified on energy savings.** The
+case rests on reliability value, avoided generation capital and enabling load growth,
+evaluated as a multi-value benefit-cost ratio typically targeting 1.5–3.0. The reliability
+term has not yet been quantified for this project; doing so with LBNL's ICE Calculator is
+the highest-value analysis outstanding, and until it exists the ratio above **understates**
+the case.
 
 ---
 

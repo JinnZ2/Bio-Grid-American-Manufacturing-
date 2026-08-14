@@ -80,11 +80,17 @@ This file outlines the **macro-risks**, **chokepoints**, and **trigger condition
 
 ## 🧮 Risk-Adjusted Strategy Summary
 
-| Outcome | Probability | ROI Projection | Notes |
+> **ROI column withdrawn August 2026.** The 340% and 180% figures implied annual returns of
+> 111% and 59% of the entire MN+WI+UP electricity market ($17.3B/yr) and were not available
+> at any level of technical performance. Transmission is evaluated on a multi-value
+> benefit-cost ratio, not an ROI percentage. Probabilities below remain **unsourced
+> estimates**. See [Economic_Impact.md](Economic_Impact.md).
+
+| Outcome | Probability (unsourced) | Benefit-cost basis | Notes |
 |---------|-------------|----------------|-------|
-| Full rollout + global export | 50% | 340% ROI | Strategic dominance |
-| Partial scale (Great Lakes only) | 35% | 180% ROI | Still self-sustaining |
-| Infrastructure stall (2–3 states only) | 15% | ~1.1x ROI | Politically fragile |
+| Full rollout + global export | 50% | Target BCR 1.5–3.0, pending reliability valuation | Strategic dominance |
+| Partial scale (Great Lakes only) | 35% | Lower BCR — fixed costs spread over less network | Still self-sustaining |
+| Infrastructure stall (2–3 states only) | 15% | BCR likely < 1.0 | Politically fragile |
 
 ---
 
