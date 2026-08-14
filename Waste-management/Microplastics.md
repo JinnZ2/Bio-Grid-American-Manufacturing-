@@ -1,5 +1,34 @@
 # Braided Energy Microplastics Cleanup Platform
 
+> ## Scale revision — August 2026
+>
+> **The dominant fraction of marine plastic is smaller than this platform targets.**
+> Sources: [REFERENCES.md](../REFERENCES.md). Discussion:
+> [SCIENCE_UPDATE_2026.md §6](../docs/SCIENCE_UPDATE_2026.md).
+>
+> A July 2025 *Nature* study measured **27 million tonnes of nanoplastics in the North
+> Atlantic alone** — roughly **nine times all larger plastic debris in every ocean
+> combined** (`nanoplastics_nature_2025`). The surface mixed layer holds **11.73–15.20 Mt**.
+> Concentrations: **18.1 mg/m³** at the surface, **10.9 mg/m³** at ~1 km, **5.5 mg/m³** near
+> the seabed, sampled across 12 stations. The authors call the estimate conservative — some
+> common polymers were undetectable by their method.
+>
+> **This changes the engineering problem, not just its size.** The electrostatic and
+> piezoelectric mechanisms below assume particles large enough to carry meaningful
+> triboelectric charge and to couple mechanically to a resonant structure. Nanoscale
+> particles behave as colloids: Brownian motion dominates transport, surface chemistry
+> dominates capture, and mechanical filtration at that scale means processing the water
+> column itself. The friction coefficients, resonance couplings and penetration depths in
+> this document apply to the micro-scale fraction and **do not transfer** to the nanoscale
+> fraction that dominates by mass.
+>
+> **On the biological pathway.** Enzymatic depolymerisation has advanced well beyond the
+> PETase figures cited in §5 below. Carbios' **LCC-ICCG converts 98% of PET to monomers in
+> 24 hours**, with enzyme loading cut 3× and reaction temperature lowered from 72 °C to
+> 68 °C (`petase_acscatal_2023`). But this is a **reactor** process operating on collected,
+> sorted, pre-treated PET at controlled temperature. It is not an in-ocean remediation
+> pathway and should not be presented as one.
+
 ## Mathematical Optimization Framework
 
 ## Energy Source Integration Analysis
@@ -44,7 +73,10 @@
 **5. Biological Processing Energy (BP)**
 
 - Microbial metabolism: ATP yield ≈ 30-38 mol ATP/mol glucose equivalent
-- Plastic-eating enzymes: PETase efficiency ≈ 0.1-1.0 mg/L/h
+- Plastic-eating enzymes: wild-type PETase ≈ 0.1-1.0 mg/L/h. **Superseded** — engineered
+  LCC-ICCG reaches 98% PET→monomer conversion in 24 h at 68 °C (`petase_acscatal_2023`),
+  and PES-H1(L92F/Q94Y) reaches 80%. Use the engineered figures, and note they are reactor
+  conditions, not ambient seawater.
 - Bioelectric generation: P_microbial = nFEI where n = electrons, F = Faraday constant, E = potential, I = current
 
 ### Resonance Amplification Matrix

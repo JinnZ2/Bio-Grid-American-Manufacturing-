@@ -9,6 +9,12 @@ This implementation is designed for deployment in **post-industrial regions** wi
 
 ## 📊 Region Scoring
 
+> **These scores are unsourced.** No published methodology, weighting or input data
+> underlies them, and they should be read as a qualitative ranking rather than as
+> measurements. The two-decimal precision implies an accuracy that does not exist. Retained
+> because the ordering is defensible; the numbers are not. Flagged August 2026 —
+> see [SCIENCE_UPDATE_2026.md](SCIENCE_UPDATE_2026.md).
+
 | Region          | Feasibility Score | Strengths                        |
 |----------------|------------------|----------------------------------|
 | Great Lakes     | 0.87             | Urban decay, grid demand, cooling source |
@@ -24,4 +30,14 @@ This implementation is designed for deployment in **post-industrial regions** wi
 | Underground | 15,000 km  | Fiber + power                 |
 | Power Hubs  | 17         | Primary, secondary, tertiary  |
 
-> This blueprint is not speculative. It is **engineerable, fundable, and deployable** now.
+> **Cost note.** At the derived underground transmission cost of **$5.0–10.1M/km**
+> (`eei_underground_conversion`, escalated to 2026$), 15,000 km implies **$75B–$152B** for
+> the transmission layer alone — well above the entire Northwoods pilot budget. This table
+> describes a scope roughly 3.3× the pilot; the two should not be read as the same
+> programme. See [Economic_Impact.md](Economic_Impact.md).
+
+> This blueprint is **engineerable and fundable**, with the caveat that its economics rest
+> on reliability and avoided-capital value rather than on energy savings, and that the
+> reliability term has not yet been quantified. See
+> [SCIENCE_UPDATE_2026.md](SCIENCE_UPDATE_2026.md) for what the evidence supports and what
+> it does not.

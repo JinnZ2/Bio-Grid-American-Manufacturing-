@@ -2,15 +2,50 @@
 
 ## Adaptive Infrastructure Through Chaos Energy Harvesting
 
-**Version:** 0.1 - Foundational Concepts  
-**Status:** Open Source - Pre-Crisis Preparation  
-**Purpose:** Converting AMOC collapse transition energy into adaptive infrastructure resilience
+**Version:** 0.2 - Reframed against the observational record (August 2026)
+**Status:** Open Source - Pre-Crisis Preparation
+**Purpose:** Converting AMOC transition gradients into adaptive infrastructure resilience
 
 -----
 
+> ## ⚠️ Premise revised — August 2026
+>
+> **The 1–2 year collapse window this framework was built around is not supported by
+> observations.** The premise has been reframed rather than removed; the physical gradient
+> concepts survive, the timeline does not. Sources: [REFERENCES.md](../REFERENCES.md).
+> Full discussion: [SCIENCE_UPDATE_2026.md §5](../docs/SCIENCE_UPDATE_2026.md).
+>
+> **What the RAPID array measures.** Weakening of **1.0 [0.4–1.6] Sv per decade** at 26°N
+> over 2004–2023 — consistent with climate model projections and explicitly **not**
+> consistent with collapse in the mid-21st century (`amoc_rapid_mccarthy_2025`). The same
+> analysis finds the trend will not become statistically "unfamiliar" (signal-to-noise > 2)
+> until the **2040s**, or "unknown" (S/N > 3) until the **2060s**.
+>
+> **What projections say.** Observationally constrained projections give roughly **50%
+> weakening by 2100** under high emissions (`amoc_sciadv_2025`). Major, but century-scale.
+>
+> **The magnitude is genuinely contested.** A 2026 preprint argues for **2.6 ± 0.7 Sv per
+> decade** — roughly 20 Sv falling to 15 Sv (`amoc_opinion_2026`). It is a preprint and it
+> disagrees with the peer-reviewed record; both are cited deliberately rather than choosing
+> the more dramatic one. Separately, eddy-resolving models show **weaker** AMOC response to
+> Greenland meltwater than coarse models (`amoc_eddying_2026`) — which matters directly,
+> because meltwater forcing is the mechanism this framework assumes.
+>
+> **What this means here.** The gradients are real and will persist regardless: thermal,
+> salinity, pH and turbulence differentials all exist across a weakening circulation. What
+> does not exist is a short, high-intensity "transition energy" window to pre-position for.
+> Gradient harvesting has to justify itself against ordinary ocean-energy economics, on
+> gradients changing over **decades**, not over one or two years. Any design in this module
+> whose economics depend on a brief high-flux period should be re-scoped.
+
 ## Executive Summary
 
-The Atlantic Meridional Overturning Circulation (AMOC) collapse represents a massive energy transition event. Rather than viewing this as purely destructive, this framework captures the transition energy itself to power adaptive infrastructure during the 1-2 year collapse period. By pre-positioning energy harvesting systems before critical thresholds, communities can build resilience that feeds on the chaos.
+AMOC weakening is a decadal process that redistributes thermal, chemical and kinetic
+gradients across the North Atlantic. Rather than treating that redistribution as purely
+destructive, this framework examines whether the gradients themselves can power adaptive
+infrastructure. The gradients are persistent features of a weakening circulation, so
+harvesting systems must be economic on steady-state operation across decades — not on a
+transient collapse event.
 
 -----
 

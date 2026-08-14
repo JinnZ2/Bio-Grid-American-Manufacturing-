@@ -1,0 +1,218 @@
+{
+  "$schema_note": "Sourced parameter set backing the re-derived BioGrid economics. Every entry carries a source key resolvable in REFERENCES.md. Values with source 'ASSUMPTION' are NOT sourced and must not be cited as data.",
+  "basis_year": 2026,
+  "currency": "USD_2026",
+  "last_reviewed": "2026-08-14",
+
+  "generation_lcoe_usd_per_mwh": {
+    "_source": "lazard_lcoe_v18",
+    "_note": "Unsubsidized, June 2025 edition (v18). Ranges are Lazard's low-high, not confidence intervals.",
+    "utility_scale_solar_pv": [38, 78],
+    "onshore_wind": [37, 86],
+    "gas_combined_cycle": [48, 109]
+  },
+
+  "lazard_fuel_assumptions_usd_per_mmbtu": {
+    "_source": "lazard_lcoe_v18",
+    "natural_gas": 3.45,
+    "coal": 1.47,
+    "nuclear": 0.85
+  },
+
+  "capacity_factors_us_2025": {
+    "_source": "eia_capacity_factors_2025",
+    "wind": 0.342,
+    "utility_scale_solar": 0.244,
+    "natural_gas": 0.584,
+    "coal": 0.487,
+    "nuclear": 0.910
+  },
+
+  "battery_storage": {
+    "pack_price_stationary_usd_per_kwh_2025": {
+      "value": 70,
+      "_source": "bnef_battery_survey_2025",
+      "_note": "Cell/pack only. Fell 45% year-on-year; stationary storage became the lowest-priced segment for the first time."
+    },
+    "pack_price_all_segments_usd_per_kwh_2025": {
+      "value": 108,
+      "_source": "bnef_battery_survey_2025"
+    },
+    "installed_system_cost_usd_per_kwh": {
+      "range": [150, 250],
+      "_source": "bnef_battery_survey_2025",
+      "_note": "Utility-scale, including balance-of-system, engineering and installation. Use this, not the pack price, for project capex."
+    }
+  },
+
+  "underground_transmission": {
+    "eei_underground_cost_usd_per_mile": {
+      "low_range": [536760, 1100000],
+      "high_range": [6000000, 12000000],
+      "_source": "eei_underground_conversion",
+      "_note": "Overhead-to-underground conversion cost. Low range is distribution-class; high range is the appropriate reference class for HV transmission."
+    },
+    "eia_hvdc_usd_per_mile_2017": {
+      "range": [1170000, 8620000],
+      "_source": "eia_hvdc_study",
+      "_note": "Expressed in 2017 dollars; escalate before use."
+    },
+    "escalation_2017_to_2026": {
+      "value": 1.35,
+      "_source": "ASSUMPTION",
+      "_note": "Approximate general-inflation escalator. Transmission cable and HVDC converter supply chains have inflated faster than CPI since 2021; treat 1.35 as a floor."
+    },
+    "derived_usd_per_km_2026": {
+      "range": [5000000, 10100000],
+      "_source": "DERIVED",
+      "_note": "EEI high range ($6-12M/mile) converted to km (/1.609) and escalated by 1.35."
+    },
+    "overhead_cost_ratio": {
+      "value": 0.22,
+      "_source": "iet_transmission_comparison",
+      "_note": "Overhead costs roughly 1/4.5 of buried equivalent. Applied as a sensitivity, not a recommendation."
+    }
+  },
+
+  "hvdc_reference": {
+    "project_capex_usd_per_kw": {
+      "value": 1700,
+      "_source": "tse_hvdc_economics",
+      "_note": "Reference project: ~3 GW over ~1,500 km at 500 kV."
+    },
+    "converter_station_share_of_capex": {
+      "range": [0.30, 0.40],
+      "_source": "tse_hvdc_economics"
+    }
+  },
+
+  "compute": {
+    "gb200_nvl72_rack": {
+      "gpus": 72,
+      "nominal_power_kw": 120,
+      "observed_full_load_kw": [130, 132],
+      "_source": "nvidia_gb200_nvl72",
+      "_note": "Liquid-cooled. Integrated DLC captures ~98% of heat."
+    },
+    "dgx_h100_system": {
+      "gpus": 8,
+      "power_kw": [10, 11],
+      "_source": "nvidia_gb200_nvl72"
+    },
+    "industry_average_rack_kw": {
+      "value": 7.6,
+      "_source": "nvidia_gb200_nvl72"
+    },
+    "datacenter_facility_cost_usd_per_mw": {
+      "range": [10000000, 15000000],
+      "_source": "ASSUMPTION",
+      "_note": "Liquid-cooled shell, power and cooling, excluding IT hardware. Order-of-magnitude only."
+    },
+    "nvl72_rack_hardware_cost_usd": {
+      "range": [3000000, 3500000],
+      "_source": "ASSUMPTION",
+      "_note": "Street-price estimate; NVIDIA does not publish list pricing."
+    }
+  },
+
+  "employment": {
+    "peri_job_years_per_usd_million": {
+      "range": [12.9, 16.0],
+      "_source": "peri_employment_multipliers",
+      "_note": "Direct + indirect + induced. The lower end applies to capital upgrades, the upper to building operation. These are JOB-YEARS, not simultaneous headcount."
+    },
+    "direct_share_of_total_jobs": {
+      "range": [0.40, 0.50],
+      "_source": "ASSUMPTION",
+      "_note": "Typical direct fraction of a PERI-style direct+indirect+induced total."
+    },
+    "grid_om_fte_per_km_transmission": {
+      "range": [0.02, 0.04],
+      "_source": "ASSUMPTION",
+      "_note": "Roughly 1 FTE per 25-50 km of maintained underground circuit. Buried cable needs less routine vegetation and inspection work than overhead, but cable faults are far more labour-intensive to locate and repair."
+    },
+    "grid_om_fte_per_substation": {
+      "range": [3, 8],
+      "_source": "ASSUMPTION",
+      "_note": "Maintenance and switching crew per HV substation, shared across nearby sites."
+    },
+    "control_room_fte": {
+      "range": [50, 150],
+      "_source": "ASSUMPTION",
+      "_note": "Round-the-clock operations, dispatch and cyber staffing for a regional control centre."
+    }
+  },
+
+  "regional_market_denominators": {
+    "_note": "Sanity-check denominators. Any claimed annual benefit approaching these totals is not physically available.",
+    "minnesota_retail_sales_mwh_2024": {
+      "value": 64562108,
+      "_source": "eia_state_profiles"
+    },
+    "wisconsin_retail_sales_mwh_2024": {
+      "value": 68291424,
+      "_source": "eia_state_profiles"
+    },
+    "minnesota_avg_retail_price_usd_per_mwh_2024": {
+      "value": 123.5,
+      "_source": "eia_state_profiles"
+    },
+    "wisconsin_avg_retail_price_usd_per_mwh_2024": {
+      "value": 127.2,
+      "_source": "eia_state_profiles"
+    },
+    "michigan_up_retail_sales_mwh_estimate": {
+      "value": 5000000,
+      "_source": "ASSUMPTION",
+      "_note": "Upper Peninsula only; EIA reports Michigan statewide. Rough allocation."
+    }
+  },
+
+  "national_context": {
+    "us_generation_2026_forecast_twh": {
+      "value": 4327,
+      "growth_rate": 0.024,
+      "_source": "eia_steo_2026"
+    },
+    "wind_solar_share_of_us_generation_2025": {
+      "value": 0.17,
+      "_source": "eia_wind_solar_record_2025"
+    },
+    "long_run_demand_growth_to_2050": {
+      "range": [0.009, 0.016],
+      "_source": "eia_aeo_2026",
+      "_note": "Data center load is the dominant driver."
+    }
+  },
+
+  "pilot_scope": {
+    "_note": "Physical scope as stated in the original repository documents, held fixed so the re-derivation is comparable to the original claim.",
+    "underground_transmission_km": 4500,
+    "build_duration_years": 5,
+    "substation_spacing_km": 50,
+    "substation_cost_usd": {
+      "range": [20000000, 100000000],
+      "_source": "ASSUMPTION",
+      "_note": "HV substation, wide range by voltage class and scope. MISO's Transmission Cost Estimation Guide is the correct reference class for a real estimate."
+    },
+    "storage_budget_usd": 7000000000,
+    "contingency": {
+      "range": [0.20, 0.30],
+      "_source": "ASSUMPTION",
+      "_note": "Standard practice for pre-FEED infrastructure estimates."
+    }
+  },
+
+  "original_claims_under_review": {
+    "_note": "The figures this re-derivation is testing. Retained verbatim for traceability.",
+    "total_investment_usd": 85000000000,
+    "roi_15_year": 3.40,
+    "payback_years": 4.2,
+    "construction_jobs": 125000,
+    "permanent_jobs": 150000,
+    "annual_energy_cost_savings_usd": 12000000000,
+    "annual_export_revenue_2040_usd": 150000000000,
+    "neural_core_gpus": 500,
+    "neural_core_gpu_model": "NVIDIA H100"
+  }
+}

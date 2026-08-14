@@ -44,12 +44,39 @@ Layer 2: Bio-compatible growth medium (4 inches)
 - Moisture retention capability
 - Temperature buffering
 
-Layer 3: Mycelial inoculation matrix (2 inches)
-- Engineered Physarum polycephalum strains
+Layer 3: Biological network matrix (2 inches)
+- Engineered Physarum polycephalum strains (routing/sensing) OR
+  fungal mycelium composite (structural/insulating) — see note below
 - Cold-resistant genetic modifications
 - Accelerated growth characteristics
 - Bioelectric conductive properties
 ```
+
+> **Taxonomy — corrected August 2026.** This layer was previously labelled a "mycelial
+> inoculation matrix" seeded with *Physarum polycephalum*. Those are two different
+> organisms and the distinction has engineering consequences.
+>
+> *Physarum polycephalum* is an **acellular slime mould** (Amoebozoa) — a protist, not a
+> fungus. It forms a **plasmodium**: one multinucleate cell spreading as a network of
+> protoplasmic tubes. It has **no structural strength** and reconfigures continuously.
+> Fungal **mycelium** is a network of hyphae from an entirely different lineage, and it
+> binds substrate into a rigid composite.
+>
+> | | Physarum plasmodium | Fungal mycelium |
+> |---|---|---|
+> | Mechanical role | None | Binds substrate into rigid composite |
+> | Best use in this layer | Adaptive routing, sensing | Insulation, lining, thermal buffer |
+> | Persistence | Motile, continuously reconfiguring | Fixed once grown and dried |
+>
+> **Choose deliberately.** A layer intended as adaptive routing substrate needs Physarum.
+> A layer intended as structural or insulating biocomposite needs a fungus. They do not
+> substitute for each other. See [REFERENCES.md](../../REFERENCES.md) and
+> [SCIENCE_UPDATE_2026.md §7](../../docs/SCIENCE_UPDATE_2026.md).
+>
+> **Load-bearing is correctly allocated here.** Layer 1's concrete liner carries the load,
+> and it must. Mycelium composites reach compressive strength **≥ 0.08 MPa**
+> (`mycelium_buildings_2025`) against 20–40 MPa for structural concrete — roughly
+> **250–500× weaker**. They are insulation-class materials. Keep them out of the load path.
 
 **Biological System Specifications**
 
