@@ -26,19 +26,32 @@ This is not about building bigger factories. It's about growing smarter networks
 Goal Outcome
 Reshore Critical Manufacturing Reduce foreign supply chain dependence
 Integrate Renewable Energy Achieve grid-level energy dominance
-Create Rural Economic Engines Launch 275k+ jobs in Phase 1 alone
-Establish Tech Export Leadership $150B/year in international licensing by 2040
+Create Rural Economic Engines 165k–205k jobs sustained during the build (derived)
+Establish Tech Export Leadership Export ambition retained — no derivation available
 
 ---
 
 🧭 Pilot Implementation: The Northwoods Bridge
 
-Phase 1 (2025–2040) focuses on the Minnesota-Wisconsin-Upper Michigan corridor:
+Phase 1 (2026–2040) focuses on the Minnesota-Wisconsin-Upper Michigan corridor:
 
-· $85B Investment | 340% ROI over 15 years
-· 4,500 km underground smart grid
-· 500 H100 GPUs in Duluth-Superior neural core
-· 99.95% reliability with cyber-resilient design
+· $39.7B–$88.5B investment (2026$, midpoint $64B) — [derived](docs/Economic_Impact.md), not asserted
+· 4,500 km underground smart grid — $22.6B–$45.3B, the dominant cost line
+· 7 × GB200 NVL72 racks (504 Blackwell GPUs, ~0.9 MW) in the Duluth-Superior neural core
+· 28–47 GWh of storage — 7.0–11.7 GW at four hours, at 2025 battery prices
+· Grid-forming inverters per IEEE 2800a for islanding and local restart
+
+**On the numbers.** Every figure above is computed from published cost benchmarks by
+`python3 tools/derive_economics.py`, with inputs in
+[`data/cost_basis_2026.json`](data/cost_basis_2026.json) and citations in
+[REFERENCES.md](REFERENCES.md).
+
+A 2026 review re-derived the economics and withdrew three earlier claims — a 340% 15-year
+ROI, a 4.2-year payback, and $12B/yr in energy savings. Each would have required capturing
+69–117% of every dollar the region spends on electricity, which is not available at any
+level of technical performance. Transmission is justified on reliability value and avoided
+generation capital, not on energy savings. The full audit is in
+[SCIENCE_UPDATE_2026.md](docs/SCIENCE_UPDATE_2026.md).
 
 This region offers ideal conditions for piloting:
 
@@ -53,19 +66,25 @@ This region offers ideal conditions for piloting:
 
 ```
 biogrid-2.0/
+├── 📚 REFERENCES.md                       # Every sourced figure, with DOIs
 ├── 📊 docs/
+│   ├── SCIENCE_UPDATE_2026.md            # 2026 evidence review + corrections
+│   ├── Economic_Impact.md                # Re-derived economics
 │   ├── Implementation_Timeline.md
 │   ├── Northwoods_Bridge_Strategy.md
-│   ├── Political_Coalition_Strategy.md
 │   └── International_Export_Strategy.md
 ├── 🔧 src/
 │   ├── components/AntSwarmKnowledge.jsx  # Visual simulator
-│   └── models/                           # System modeling
+│   ├── materials-durability/             # Archetype degradation modelling
+│   └── air-quality-cascade/              # Ozone/corrosion cascade
 ├── 🧪 data/
-│   ├── biogrid_specs.json               # Programmatic configuration
-│   └── compressed_hex_codes.txt          # Regenerative seed logic
-└── 🌍 examples/
-    └── community_node_blueprint.md       # Local node implementation
+│   ├── cost_basis_2026.json              # Sourced cost parameters
+│   └── Economic-projections.md           # Derived projections
+├── 🛠️ tools/
+│   └── derive_economics.py               # Reproducible cost derivation
+└── 🗄️ legacy/                             # Superseded material — do not cite
+    ├── pre-2026-refresh/                 # Previous versions of live documents
+    └── obsolete/                         # Files removed entirely
 ```
 
 ---
@@ -90,9 +109,16 @@ This is a living project. We're building in the open and welcome:
 
 Start Here:
 
-· Read the Implementation Timeline
+· Read the [2026 Science Update](docs/SCIENCE_UPDATE_2026.md) — what the evidence supports and what it does not
+· Check [REFERENCES.md](REFERENCES.md) before citing any figure from this repository
+· Run `python3 tools/derive_economics.py` to see the cost model work
 · Explore the Northwoods Bridge Strategy
 · Run the Ant Swarm Simulator
+
+**If you add a number, source it.** Every quantitative claim here either resolves to an
+entry in [REFERENCES.md](REFERENCES.md) or is explicitly labelled an assumption. There is
+no third category. Laboratory records and field performance are never presented as the same
+figure. Modelled results are distinguished from built systems.
 
 ---
 

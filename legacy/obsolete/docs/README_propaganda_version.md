@@ -1,3 +1,17 @@
+> # ⚠️ ARCHIVED — obsolete, August 2026
+>
+> **Do not cite figures from this file, and do not circulate it.** This was an
+> unreferenced alternate version of the root README. It repeats five claims the
+> 2026 review withdrew as unsupportable: $85B budget, 340% ROI with 4.2-year
+> payback, 275,000 jobs, $150B/yr exports, and a 500 × H100 core.
+>
+> Current README: [../../../README.md](../../../README.md)
+> Why these changed: [../../../docs/SCIENCE_UPDATE_2026.md](../../../docs/SCIENCE_UPDATE_2026.md)
+>
+> Banner is the only modification. Original: `git show 680c51d:docs/README_propaganda_version.md`
+
+---
+
 # 🦅 THE GREAT LAKES BIO-GRID: AMERICA’S PATH TO POWER
 
 > **“If you want energy independence, jobs, climate resilience, and economic dominance — build this grid.”**

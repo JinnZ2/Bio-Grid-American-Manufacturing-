@@ -1,0 +1,20 @@
+// ARCHIVED — obsolete, August 2026. Do not use.
+//
+// Unreferenced scratch fragment, not a valid module: canvasRef and
+// setKnowledgeNodes are undefined here, and the import path resolves to
+// src/components/api/feeds, which does not exist (the real file is
+// src/api/feeds.js). src/components/AntSwarmKnowledge.jsx already implements
+// the canvasRef + useEffect wiring this snippet sketched.
+//
+// Original: git show 680c51d:src/components/Knowledge-nodes-import
+
+import { loadKnowledgeNodes } from './api/feeds';
+
+useEffect(() => {
+  const canvas = canvasRef.current;
+  if (!canvas) return;
+
+  loadKnowledgeNodes().then(setKnowledgeNodes);
+
+  // Your ant colony init logic...
+}, []);

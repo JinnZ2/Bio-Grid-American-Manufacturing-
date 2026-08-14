@@ -1,26 +1,25 @@
+> # ⚠️ ARCHIVED — superseded August 2026
+>
+> **Do not cite figures from this file.** This is the pre-refresh version of
+> `docs/Technical-feasibility.md`, preserved for provenance only. Several of its
+> quantitative claims were withdrawn as unsupportable — see
+> [../../../docs/SCIENCE_UPDATE_2026.md](../../../docs/SCIENCE_UPDATE_2026.md).
+>
+> **Current version:** [../../../docs/Technical-feasibility.md](../../../docs/Technical-feasibility.md)
+>
+> Archived from commit `fb07207`. This banner is the only modification;
+> the byte-exact original is `git show fb07207:docs/Technical-feasibility.md`.
+
+---
+
 # 🧠 Technical Feasibility – BioGrid 2.0
 
 ## 🏗️ Core System Stack
 
-> **Updated August 2026.** Compute hardware refreshed to current generation and the control
-> core right-sized; islanding requirements now referenced against IEEE 2800a. See
-> [SCIENCE_UPDATE_2026.md §3 and §8](SCIENCE_UPDATE_2026.md). Sources:
-> [REFERENCES.md](../REFERENCES.md).
-
 ### Neural Controller Network
-- **7 × NVIDIA GB200 NVL72 racks** at the Duluth-Superior hub — 504 Blackwell GPUs,
-  **840–924 kW**, liquid-cooled with ~98% heat capture (`nvidia_gb200_nvl72`)
-- Replaces the previous 500 × H100 specification (≈62 DGX H100 systems, 625–688 kW) at
-  roughly **25× the performance for comparable power**
-- All-in cost including facility: **$29M–$38M**
+- 500 NVIDIA H100 GPUs at Duluth-Superior hub
 - Resilient AI control system with feedback learning
 - Decentralized fallback pattern if hub loses power/comms
-
-**Right-sizing note.** The `Economic_Impact.md` budget previously allocated $8B to "neural
-hubs + processing centers" — enough for 109,000–137,000 GPUs at 181–229 MW, a hyperscale
-training campus. A grid control plane runs state estimation, contingency analysis and
-optimal power flow, which are inference and optimisation workloads, not training. It needs
-**O(1 MW)**. The specification above is the credible figure; the budget line was not.
 
 ### Edge Node Architecture
 - 55-node Fibonacci distribution across MN, WI, U.P.
@@ -66,10 +65,7 @@ Latency simulations show node convergence delay under 4.5ms in optimal condition
 ## ⚙️ Deployment Constraints
 
 - **Power draw per node:** ~3.5kW (active), ~1.2kW idle
-- **Hub cooling:** GB200 NVL72 ships with integrated direct liquid cooling (DLC-2)
-  capturing ~98% of heat (`nvidia_gb200_nvl72`). At 840–924 kW the hub rejects roughly
-  0.9 MW — lake cooling is a heat-sink question, not a chip-temperature one, and needs a
-  thermal discharge permit before it is a design assumption.
+- **Hub operating temp:** Lake-cooled GPU arrays remain under 50°C at peak
 - **Sensor packet rate:** 2–5Hz per node (adaptive)
 - **Backhaul capacity:** Scales to 10Gbps across primary fiber trunk
 
@@ -81,15 +77,6 @@ Latency simulations show node convergence delay under 4.5ms in optimal condition
 - Peer routing fallback enables continued discovery during hub outage
 - All node memory hot-swappable
 - Loss of 20% nodes still yields 90% functionality
-
-**Islanding is a grid-forming requirement, not a software one.** Any node expected to
-separate from the grid and restart locally must be specified as **grid-forming** per
-IEEE 2800-2022 and amendment 2800a (`ieee_2800`, `doe_gfm_specs`). Grid-forming inverters
-establish voltage and frequency autonomously and provide synthetic inertia; grid-following
-inverters require an existing grid reference and **cannot black-start**. The "graceful
-collapse buffering" and "restart locally" behaviour claimed throughout this repository is
-achievable, but only with the correct inverter class — it does not fall out of the routing
-software.
 
 ---
 
