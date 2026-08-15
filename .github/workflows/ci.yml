@@ -42,6 +42,15 @@ jobs:
       - name: Run Python model tests
         run: python Waste-management/test_eta_sensitivity.py
 
+      - name: Economics derivation must run
+        run: python tools/derive_economics.py --json > /dev/null
+
+      - name: Transition model must run
+        run: |
+          python tools/transition_pathways.py --json > /dev/null
+          python tools/transition_pathways.py --strategies > /dev/null
+          python tools/transition_pathways.py --sensitivity > /dev/null
+
   lint:
     runs-on: ubuntu-latest
     steps:

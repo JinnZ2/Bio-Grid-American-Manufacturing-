@@ -44,8 +44,10 @@ legacy/                  Falsification record — prior states, NOT current
   obsolete/              Files removed outright
 docs/                    Strategy, feasibility, risk, equations, blueprints
   SCIENCE_UPDATE_2026.md The evidence review and every correction it produced
-data/                    Briefs, projections, cost_basis_2026.json
-tools/derive_economics.py  Reproducible cost model
+  DESIGN_REVISION_2026.md What changes as a result, and the route to build it
+data/                    Briefs, projections, cost_basis_2026.json, transition_basis_2026.json
+tools/derive_economics.py    Reproducible cost model
+tools/transition_pathways.py Leverage ranking + governance/financial transition
 src/
   components/            React: AntSwarmKnowledge, LiveStatusPanel
   hooks/                 useSwarmConfig — loads config/parameters.json
@@ -70,6 +72,8 @@ npm run format:check    # prettier (CI enforces this)
 npm run report          # node bin/generate_report.js
 
 python3 tools/derive_economics.py                    # rebuild the economics
+python3 tools/transition_pathways.py                 # ranked design changes + transition
+python3 tools/transition_pathways.py --sensitivity   # do the rankings survive?
 python3 Waste-management/test_eta_sensitivity.py     # python model tests
 ```
 
@@ -95,6 +99,9 @@ the 2026 review; neither is a regression.
 - **Don't restore withdrawn figures.** If you find `340% ROI`, `$85B annual impact`,
   `275k jobs`, `500 H100 GPUs` or a `1–2 year AMOC collapse` outside a supersession block,
   that is a regression.
+- **Design changes go through `transition_pathways.py`.** Add the modification to
+  `data/transition_basis_2026.json` with its cost, lead time, consenting parties and
+  reversibility, then re-run. A change that cannot be scored is a change nobody can rank.
 - **φ applies to geometry, φ⁻¹ to decay.** Applying φ = 1.618 to a recursion makes it
   diverge; that was a real bug in `Technical-equations.md`.
 - **Prefer editing in place with a marked correction** over silent rewriting. The audit

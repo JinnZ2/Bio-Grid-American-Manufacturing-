@@ -105,16 +105,27 @@ Open questions, ranked by how much rests on them. These are the next rerun.
 1. **Reliability value is unquantified.** Every 99.95% figure in this repository is a
    target, never a measurement. It is also the largest *missing* benefit term, so the
    current benefit-cost ratio **understates** the project. Tool: LBNL ICE Calculator.
-2. **HVAC or HVDC is undecided.** Converter stations are 30–40% of capex, which makes HVDC
-   uneconomic below ~500–600 km. For 4,500 km of shorter segments this is decisive.
-3. **The burial decision is unpriced.** Overhead costs $17B–$35B less. That is an argument
-   to make, not an assumption to hold.
+2. ~~**HVAC or HVDC is undecided.**~~ **RESOLVED 2026** — M2 in
+   [DESIGN_REVISION_2026.md](../docs/DESIGN_REVISION_2026.md): HVAC for the backbone, HVDC
+   only where a single run earns its converters. Costs nothing to decide; ~$10.2B of
+   avoided overrun risk.
+3. ~~**The burial decision is unpriced.**~~ **PRICED 2026** — M1: selective burial at 20%
+   avoids $21.2B versus blanket burial. The *fraction* is still a guess (see 7); the
+   decision is no longer unexamined.
 4. **Ozone degradation kinetics** use test data at 5–50× ambient concentration with no
    acceleration transfer function.
 5. **Substation costs are assumed.** Replace with MISO MTEP figures.
 6. **Efficiency and cost-reduction targets** (42%, 35%, 30%) have no stated baseline or
    method anywhere in the repository.
-7. **`src/BioGridTechnicalImplementation.js` is truncated and does not parse.** The final
+7. **The 20% burial fraction is a guess.** It drives the largest single saving in the
+   programme ($21.2B). The routing study (T1) replaces it with an answer for ~$12M.
+8. **The storage/transmission substitution ratio is a guess.** Breakeven is exact at
+   0.0083 GWh per deferred km; the actual requirement needs a production-cost model.
+9. **No transition route is costed for opposition.** Consent-party counts proxy for
+   difficulty, not for the probability that a party refuses.
+10. **Anchor-tenant concentration risk is unmodelled.** One counterparty carrying the
+    revenue case is a different risk profile from a rate base.
+11. **`src/BioGridTechnicalImplementation.js` is truncated and does not parse.** The final
    statement is cut off mid-expression, leaving three unclosed braces. Verified identical
    at `fb07207`, so the damage is original rather than introduced. Whatever the lost tail
    contained is unrecoverable from this repository — reconstructing it would mean inventing
