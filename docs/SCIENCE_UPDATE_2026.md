@@ -602,6 +602,10 @@ Area_ratio = r_i²/r_j² = K_i/K_j
 
 ## Open work
 
+> **Items 3 and 4 below were closed by [DESIGN_REVISION_2026.md](DESIGN_REVISION_2026.md)**,
+> which turns this review's findings into design changes and scores them by leverage. Run
+> `python3 tools/transition_pathways.py`.
+
 Ranked by how much the conclusions depend on them:
 
 1. **Quantify reliability value with the ICE Calculator** (`lbnl_ice`). Without it, the

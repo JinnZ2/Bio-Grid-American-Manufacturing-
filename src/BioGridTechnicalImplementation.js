@@ -1,6 +1,22 @@
-BIO-GRID TECHNICAL IMPLEMENTATION
+/**
+ * BIO-GRID TECHNICAL IMPLEMENTATION
  * Deep Engineering Specifications for Great Lakes Manufacturing Renaissance
  * Complete technical blueprints for deployment
+ *
+ * ⚠️ THIS FILE DOES NOT PARSE — it is TRUNCATED, and has been since it was committed.
+ *
+ * The final statement is cut off mid-expression (an unterminated template literal in
+ * the last console.log), leaving 3 unclosed braces. Verified identical at commit
+ * fb07207, so this is original damage, not regression. Treat it as a specification
+ * document that happens to use JavaScript syntax — NOT as runnable code. Nothing
+ * imports it, and nothing can.
+ *
+ * The opening /** was also missing, which made the header a dangling comment
+ * terminator; that much is repaired here. Reconstructing the lost tail would mean
+ * inventing content, so it is left as-is and recorded in legacy/README.md under
+ * unknowns.
+ *
+ * Flagged August 2026 — see docs/SCIENCE_UPDATE_2026.md
  */
 
 class BioGridTechnicalImplementation {
@@ -20,8 +36,11 @@ class BioGridTechnicalImplementation {
         };
         
         // Implementation phases
+        // Phase 1 investment re-derived 2026: $39.7B-$88.5B, midpoint $64B (was 85).
+        // Run `python3 tools/derive_economics.py`; inputs in data/cost_basis_2026.json.
+        // Phases 2-4 have not been re-derived and remain original estimates.
         this.IMPLEMENTATION_PHASES = {
-            phase1: { duration: 24, states: 3, investment: 85 }, // months, states, $B
+            phase1: { duration: 24, states: 3, investment: 64 }, // months, states, $B
             phase2: { duration: 36, states: 5, investment: 145 },
             phase3: { duration: 48, states: 8, investment: 180 },
             total: { duration: 108, states: 8, investment: 410 }
@@ -91,7 +110,12 @@ class BioGridTechnicalImplementation {
                             efficiency: 'PUE < 1.15 (world-class efficiency)'
                         },
                         computing: {
-                            gpu: '2,000×NVIDIA H100 (80GB HBM3)',
+                            // Updated 2026: H100 superseded. See docs/SCIENCE_UPDATE_2026.md §3.
+                            // A grid control plane runs state estimation, contingency analysis
+                            // and OPF — inference, not training. O(1 MW) is the right scale;
+                            // the count below describes a training campus.
+                            gpu: '7×NVIDIA GB200 NVL72 (504 Blackwell GPUs, 840-924 kW)',
+                            gpuSuperseded: '2,000×NVIDIA H100 (80GB HBM3)',
                             cpu: '200×AMD EPYC 9654 (96 cores each)',
                             memory: '500 TB DDR5 system memory',
                             storage: '20 PB NVMe SSD + 100 PB object storage',
@@ -104,7 +128,8 @@ class BioGridTechnicalImplementation {
                     specifications: {
                         building: '25,000 sq ft each',
                         power: '7.5 MW each',
-                        computing: '500×H100 + 50×EPYC per site',
+                        // Updated 2026: was '500×H100 + 50×EPYC per site'
+                        computing: '1×GB200 NVL72 (72 GPUs, ~120 kW) + 50×EPYC per site',
                         redundancy: 'Full failover capability'
                     }
                 },
@@ -215,7 +240,8 @@ class BioGridTechnicalImplementation {
                         'Optimization (reinforcement learning)',
                         'Anomaly detection (isolation forest + VAE)'
                     ],
-                    training: 'Distributed training across H100 clusters',
+                    // Updated 2026: was 'H100 clusters'
+                    training: 'Distributed training across GB200 NVL72 clusters',
                     inference: 'TensorRT optimization for production',
                     updating: 'Continuous learning with online adaptation'
                 },

@@ -332,7 +332,7 @@ Level 4: Regional Network (10-100MW, multiple sanctuaries)
 **Server Specifications:**
 
 - **CPU**: Intel Xeon or AMD EPYC, 64-128 cores per server
-- **GPU**: NVIDIA A100 or H100 for AI training and inference
+- **GPU**: NVIDIA B200 / GB200 for AI training and inference (updated 2026; A100 and H100 are prior generations)
 - **Memory**: 512GB-2TB DDR5 ECC registered memory
 - **Storage**: 10-100TB NVMe SSD storage per server
 - **Network**: 100GbE or 200GbE network interface cards

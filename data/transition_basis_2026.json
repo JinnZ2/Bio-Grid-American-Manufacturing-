@@ -1,0 +1,378 @@
+{
+  "$schema_note": "Design modifications and transition steps for moving the Northwoods pilot from its as-written design to a defensible one. Consumed by tools/transition_pathways.py. Cost and benefit figures trace to cost_basis_2026.json and REFERENCES.md; scheduling, consent and reversibility parameters are ASSUMPTIONS and are marked as such.",
+  "basis_year": 2026,
+  "currency": "USD_2026",
+  "last_reviewed": "2026-08-15",
+  "_effort_model": {
+    "_note": "Effort converts heterogeneous friction into dollars so leverage is a single ratio. All four weights are ASSUMPTIONS \u2014 vary them and re-run; the ranking is stable across a wide band, which is the point worth checking.",
+    "cost_weight": 1.0,
+    "usd_per_lead_time_year": 2000000,
+    "usd_per_consenting_party": 1500000,
+    "irreversibility_penalty_usd": 8000000,
+    "_irreversibility_note": "Applied as penalty * (1 - reversibility). A cheap decision that forecloses a later option is not cheap.",
+    "_knee_rule": "smallest prefix capturing 90% of total positive value"
+  },
+  "modifications": [
+    {
+      "id": "M1",
+      "name": "Selective burial instead of blanket burial",
+      "kind": "technical",
+      "change": "Bury only where burial buys something: urban and highway crossings, wildfire-ignition corridors, icing-exposed spans, sensitive habitat. Overhead elsewhere.",
+      "rationale": "Buried cable costs about 4.5x the equivalent overhead line. The as-written design buries all 4,500 km without ever pricing the alternative, which makes it the largest unexamined cost decision in the programme.",
+      "buried_fraction_current": 1.0,
+      "buried_fraction_proposed": 0.2,
+      "_buried_fraction_source": "ASSUMPTION",
+      "_buried_fraction_note": "20% covers urban crossings and high-consequence corridors in a mostly rural three-state footprint. The right number comes from a routing study (step T1), not from this file.",
+      "lead_time_years": 1.0,
+      "consenting_parties": 4,
+      "reversibility": 0.9,
+      "_reversibility_note": "Fully reversible until construction starts on a given segment.",
+      "prereqs": [
+        "T1"
+      ],
+      "cost_usd": 0,
+      "value_kind": "capex_avoided"
+    },
+    {
+      "id": "M2",
+      "name": "HVAC default; HVDC only where distance justifies converters",
+      "kind": "technical",
+      "change": "Specify HVAC for the network. Reserve HVDC for individual runs over roughly 500-600 km \u2014 in this footprint that is the long lake crossings, not the backbone.",
+      "rationale": "Converter stations are 30-40% of HVDC project capex and are a fixed cost per terminal, so HVDC loses to HVAC below roughly 500-600 km. A 4,500 km network of shorter segments is the wrong shape for HVDC. The repository never makes this choice, which leaves a 30-40% capex swing unresolved.",
+      "avoided_capex_risk_fraction": 0.3,
+      "_avoided_source": "tse_hvdc_economics",
+      "lead_time_years": 0.0,
+      "consenting_parties": 1,
+      "reversibility": 0.7,
+      "_reversibility_note": "Reversible on paper; expensive once converter procurement starts.",
+      "prereqs": [],
+      "cost_usd": 0,
+      "value_kind": "capex_risk_avoided"
+    },
+    {
+      "id": "M3",
+      "name": "Reallocate the over-budgeted lines to transmission and storage",
+      "kind": "financial",
+      "change": "Move the derived surplus from the compute, software and workforce lines into transmission and storage, holding the total envelope fixed.",
+      "rationale": "The re-derivation found compute over-allocated by roughly 240x, software by 14x and workforce by 6x, while transmission was understated by 1.9x. The envelope was approximately right; the allocation inside it was not. This is a spreadsheet change, not a funding request.",
+      "lead_time_years": 0.0,
+      "consenting_parties": 1,
+      "reversibility": 1.0,
+      "prereqs": [],
+      "cost_usd": 0,
+      "value_kind": "capital_redirected"
+    },
+    {
+      "id": "M4",
+      "name": "Specify grid-forming inverters at procurement",
+      "kind": "technical",
+      "change": "Require IEEE 2800-2022 with amendment 2800a grid-forming capability on every inverter-based resource intended to island or black-start.",
+      "rationale": "Grid-forming inverters establish voltage and frequency autonomously and provide synthetic inertia; grid-following inverters need an existing grid reference and cannot black-start. Every 'graceful collapse buffering' and 'restart locally' claim in this repository is a grid-forming capability. It does not fall out of the routing software, and it is not a retrofit.",
+      "premium_fraction_on_inverters": 0.04,
+      "_premium_source": "ASSUMPTION",
+      "_premium_note": "Order-of-magnitude. Grid-forming control is largely firmware plus headroom; the premium is small at procurement and very large as a retrofit.",
+      "inverter_share_of_storage_capex": 0.15,
+      "_inverter_share_source": "ASSUMPTION",
+      "lead_time_years": 0.0,
+      "consenting_parties": 1,
+      "reversibility": 0.1,
+      "_reversibility_note": "Effectively one-way. Not specifying it now forecloses islanding for the asset's life.",
+      "prereqs": [],
+      "unlocks": "reliability_benefit",
+      "value_kind": "benefit_enabled"
+    },
+    {
+      "id": "M5",
+      "name": "Substitute storage for marginal transmission kilometres",
+      "kind": "technical",
+      "change": "Site storage at load pockets to defer the most expensive marginal line segments rather than building transmission to serve peak.",
+      "rationale": "Stationary storage packs fell 45% in 2025 to $70/kWh, and installed systems run $150-250/kWh. Transmission runs $5.0-10.1M/km. There is now a real trade between the two that did not exist when the design was written.",
+      "deferred_km": 400,
+      "_deferred_km_source": "ASSUMPTION",
+      "_deferred_km_note": "Needs a production-cost model to size properly. 400 km of ~4,500 is a deliberately conservative placeholder.",
+      "storage_gwh_required_per_deferred_km": 0.02,
+      "_storage_ratio_source": "ASSUMPTION",
+      "lead_time_years": 1.5,
+      "consenting_parties": 3,
+      "reversibility": 0.8,
+      "prereqs": [
+        "T1"
+      ],
+      "cost_usd": 0,
+      "value_kind": "capex_avoided"
+    },
+    {
+      "id": "M6",
+      "name": "Anchor tenant: contract the load before building for it",
+      "kind": "financial",
+      "change": "Sign a large interconnecting load \u2014 data centre, electrolyser, or industrial process \u2014 to a long-term contract before committing transmission capital.",
+      "rationale": "EIA's 2026 outlook makes data centre load the dominant driver of US electricity growth, and this is how transmission is actually being financed in 2025-26. It converts a speculative ratepayer-funded build into contracted revenue, which is the difference between needing a benefit-cost case and having a counterparty. The region already has the two things such a tenant wants: cold water and cheap wind.",
+      "_note": "This changes who pays, not what gets built. It is listed as a modification because it changes the design's financial structure, which is the part that currently does not close.",
+      "lead_time_years": 2.5,
+      "consenting_parties": 5,
+      "reversibility": 0.5,
+      "prereqs": [
+        "G3"
+      ],
+      "cost_usd": 15000000,
+      "_cost_note": "ASSUMPTION \u2014 development, legal and interconnection study costs to reach a signed contract.",
+      "value_kind": "risk_transferred"
+    },
+    {
+      "id": "M7",
+      "name": "Phase-gate on measured reliability, not asserted reliability",
+      "kind": "governance",
+      "change": "Replace the '99.95% reliability achieved' expansion trigger with a measured SAIDI/SAIFI improvement gate on the built phase, evaluated against the pre-build baseline.",
+      "rationale": "Every 99.95% figure in this repository is a target and none has been validated. An expansion gate that tests an unmeasured quantity is not a gate. Measuring it is also how the reliability benefit term gets populated.",
+      "lead_time_years": 0.0,
+      "consenting_parties": 2,
+      "reversibility": 1.0,
+      "prereqs": [
+        "F2"
+      ],
+      "cost_usd": 0,
+      "value_kind": "benefit_enabled"
+    }
+  ],
+  "steps": [
+    {
+      "id": "F2",
+      "name": "Fund the reliability valuation study (LBNL ICE Calculator)",
+      "kind": "financial",
+      "cost_usd": 250000,
+      "_cost_source": "ASSUMPTION",
+      "lead_time_years": 0.5,
+      "consenting_parties": 1,
+      "reversibility": 1.0,
+      "prereqs": [],
+      "unlocks_benefit": "reliability",
+      "note": "The single largest missing term in the benefit-cost case. Until it exists, the project's own analysis understates it."
+    },
+    {
+      "id": "T1",
+      "name": "Routing and undergrounding study",
+      "kind": "technical",
+      "cost_usd": 12000000,
+      "_cost_source": "ASSUMPTION",
+      "lead_time_years": 1.0,
+      "consenting_parties": 3,
+      "reversibility": 1.0,
+      "prereqs": [],
+      "note": "Determines which segments genuinely need burial. Gates both M1 and M5, and is the cheapest way to resolve the largest cost uncertainty in the programme."
+    },
+    {
+      "id": "G1",
+      "name": "Adopt the claim-sourcing rule as programme governance",
+      "kind": "governance",
+      "cost_usd": 0,
+      "lead_time_years": 0.0,
+      "consenting_parties": 1,
+      "reversibility": 1.0,
+      "prereqs": [],
+      "note": "Already in force in this repository (CONTRIBUTING.md). Listed because a programme that reintroduces unsourced figures at the financing stage loses its credibility exactly when it needs it."
+    },
+    {
+      "id": "G2",
+      "name": "Tri-state compact (MN-WI-MI)",
+      "kind": "governance",
+      "cost_usd": 5000000,
+      "_cost_source": "ASSUMPTION",
+      "lead_time_years": 2.0,
+      "consenting_parties": 6,
+      "reversibility": 0.4,
+      "prereqs": [
+        "G1"
+      ],
+      "note": "Three legislatures plus three governors. The long pole in the governance path."
+    },
+    {
+      "id": "G3",
+      "name": "MISO transmission planning submission and interconnection position",
+      "kind": "governance",
+      "cost_usd": 8000000,
+      "_cost_source": "ASSUMPTION",
+      "lead_time_years": 2.0,
+      "consenting_parties": 2,
+      "reversibility": 0.6,
+      "prereqs": [
+        "T1"
+      ],
+      "note": "MTEP cycle entry. Also the prerequisite for any anchor tenant, since a tenant is buying a queue position as much as a site."
+    },
+    {
+      "id": "G4",
+      "name": "State certificates of need (one per state)",
+      "kind": "governance",
+      "cost_usd": 20000000,
+      "_cost_source": "ASSUMPTION",
+      "lead_time_years": 2.5,
+      "consenting_parties": 3,
+      "reversibility": 0.3,
+      "prereqs": [
+        "F2",
+        "T1"
+      ],
+      "note": "Requires a benefit case. Filing before the reliability study exists means filing the weak version of your own argument."
+    },
+    {
+      "id": "G5",
+      "name": "Tribal nation consultation and partnership agreements",
+      "kind": "governance",
+      "cost_usd": 6000000,
+      "_cost_source": "ASSUMPTION",
+      "lead_time_years": 1.5,
+      "consenting_parties": 4,
+      "reversibility": 0.7,
+      "prereqs": [
+        "T1"
+      ],
+      "note": "Sovereign nations, not stakeholders. Routing crosses treaty-ceded territory; consultation gates siting and is far cheaper to start early than to retrofit around."
+    },
+    {
+      "id": "G6",
+      "name": "Federal corridor designation (NIETC or equivalent)",
+      "kind": "governance",
+      "cost_usd": 4000000,
+      "_cost_source": "ASSUMPTION",
+      "lead_time_years": 2.0,
+      "consenting_parties": 3,
+      "reversibility": 0.6,
+      "prereqs": [
+        "G3"
+      ],
+      "note": "Optional. Unlocks federal backstop siting and some financing programmes; costs political capital in exchange for reduced state veto risk."
+    },
+    {
+      "id": "F4",
+      "name": "Choose cost recovery: rate base vs merchant vs hybrid",
+      "kind": "financial",
+      "cost_usd": 0,
+      "lead_time_years": 0.5,
+      "consenting_parties": 2,
+      "reversibility": 0.5,
+      "prereqs": [
+        "F2"
+      ],
+      "note": "Rate base spreads cost across captive ratepayers and needs a PUC-grade benefit case. Merchant needs a counterparty. Hybrid is what most recent US transmission actually does."
+    },
+    {
+      "id": "F5",
+      "name": "Federal programme applications (DOE Grid Deployment Office and similar)",
+      "kind": "financial",
+      "cost_usd": 3000000,
+      "_cost_source": "ASSUMPTION",
+      "lead_time_years": 1.5,
+      "consenting_parties": 3,
+      "reversibility": 0.9,
+      "prereqs": [
+        "F2",
+        "G3"
+      ],
+      "note": "Capacity-contract and loan mechanisms exist precisely for the phase where a line is not yet fully subscribed."
+    },
+    {
+      "id": "F6",
+      "name": "Bond issuance / project finance close",
+      "kind": "financial",
+      "cost_usd": 45000000,
+      "_cost_source": "ASSUMPTION",
+      "_cost_note": "Transaction and issuance costs, not the principal raised.",
+      "lead_time_years": 1.5,
+      "consenting_parties": 5,
+      "reversibility": 0.2,
+      "prereqs": [
+        [
+          "G4",
+          "G6"
+        ],
+        "F4"
+      ],
+      "note": "The point of no return. Everything cheap and reversible should be resolved before this.",
+      "_prereq_note": "Nested list = any-of. Needs siting authority (state CoN or federal corridor) plus a cost-recovery decision."
+    },
+    {
+      "id": "BUILD",
+      "name": "Financial close reached \u2014 construction can begin",
+      "kind": "terminal",
+      "cost_usd": 0,
+      "lead_time_years": 0.0,
+      "consenting_parties": 1,
+      "reversibility": 0.0,
+      "prereqs": [
+        "F6"
+      ],
+      "note": "Carries the project's operating benefit, so the governance and financing chain is ranked by what it actually unlocks rather than treated as costless overhead.",
+      "value_kind": "benefit_enabled"
+    }
+  ],
+  "strategies": {
+    "_note": "Three coherent routes from the current design to a buildable one. They differ in who carries the risk before construction, not in what gets built.",
+    "public_led": {
+      "label": "Public-led / rate base",
+      "include": [
+        "G1",
+        "F2",
+        "T1",
+        "M2",
+        "M3",
+        "M4",
+        "M1",
+        "M5",
+        "M7",
+        "G2",
+        "G3",
+        "G5",
+        "G4",
+        "F4",
+        "F6",
+        "BUILD"
+      ],
+      "note": "Traditional regulated build. Slowest gate is the compact plus three certificates of need; no counterparty risk, maximum political exposure."
+    },
+    "anchor_led": {
+      "include": [
+        "G1",
+        "F2",
+        "T1",
+        "M2",
+        "M3",
+        "M4",
+        "M1",
+        "M5",
+        "M7",
+        "G3",
+        "M6",
+        "G5",
+        "F4",
+        "F5",
+        "F6",
+        "BUILD",
+        "G4"
+      ],
+      "label": "Anchor-tenant led",
+      "note": "Contract the load first, build to serve it, expand from a revenue base. Trades political risk for counterparty concentration risk."
+    },
+    "federal_led": {
+      "label": "Federal corridor led",
+      "include": [
+        "G1",
+        "F2",
+        "T1",
+        "M2",
+        "M3",
+        "M4",
+        "M1",
+        "M7",
+        "G3",
+        "G6",
+        "G5",
+        "F5",
+        "F4",
+        "F6",
+        "BUILD"
+      ],
+      "note": "Pursue corridor designation and federal financing to reduce state veto risk. Slower to first energization; more robust to any single state stalling."
+    }
+  },
+  "_prereq_semantics": "A prereq entry that is a string is required. A prereq entry that is a list is satisfied by ANY of its members. A step whose prereqs cannot be satisfied within a strategy's include-set is reported as stranded, never silently enabled."
+}

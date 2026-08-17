@@ -366,7 +366,8 @@ Electrical Integration:
 - Grid stability: Zero disruption during integration
 - Power quality: IEEE 519 compliance maintained
 - Efficiency improvement: 15% power system efficiency gain
-- Reliability improvement: 99.95% uptime achievement
+- Reliability improvement: 99.95% uptime **target** (unvalidated — no reliability
+  analysis has been performed; quantify with LBNL's ICE Calculator)
 - Cost reduction: 25% electrical system maintenance savings
 
 Communication Integration:

@@ -7,9 +7,9 @@ export async function loadKnowledgeNodes() {
 
     const nodes = await response.json();
 
-    return nodes.map(n => ({
+    return nodes.map((n) => ({
       ...n,
-      discovered: false
+      discovered: false,
     }));
   } catch (err) {
     console.warn('⚠️ Using fallback static nodes due to error:', err);
@@ -21,7 +21,7 @@ export async function loadKnowledgeNodes() {
       { id: 3, x: 600, y: 300, value: 'Emergent Behavior', strength: 9, discovered: false },
       { id: 4, x: 200, y: 400, value: 'Distributed Learning', strength: 7, discovered: false },
       { id: 5, x: 500, y: 450, value: 'Collective Intelligence', strength: 10, discovered: false },
-      { id: 6, x: 750, y: 100, value: 'Self Organization', strength: 8, discovered: false }
+      { id: 6, x: 750, y: 100, value: 'Self Organization', strength: 8, discovered: false },
     ];
   }
 }

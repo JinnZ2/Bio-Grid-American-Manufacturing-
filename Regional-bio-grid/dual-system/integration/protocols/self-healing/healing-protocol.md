@@ -455,7 +455,8 @@ PAYBACK PERIOD: 1.0 years
 
 *Reliability Improvement:*
 - **Conventional**: 85-92% uptime typical
-- **Self-Healing**: 99.95% uptime guaranteed
+- **Self-Healing**: 99.95% uptime **target, not guaranteed** — no reliability analysis
+  supports a guarantee. See docs/SCIENCE_UPDATE_2026.md
 - **Advantage**: 10x improvement in reliability
 
 *Cost Structure Revolution:*

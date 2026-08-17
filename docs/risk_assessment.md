@@ -30,7 +30,7 @@
 
 | Component | Risk Level | Detail |
 |----------|-------------|--------|
-| AI Core Stability | Low | NVIDIA H100 cluster + self-balancing |
+| AI Core Stability | Low | GB200 NVL72 cluster + self-balancing (updated 2026; was H100) |
 | Sensor Integration | Medium | IOT fragility mitigated via triple-link bus |
 | Middleware Interfacing | Medium | Clean abstraction layers, modular |
 | Neural Hub ↔ Node Sync | High | Latency variance in harsh terrain |

@@ -21,7 +21,16 @@ BioGrid 2.0
 - **Industry**: Mining + ports + manufacturing integration
 
 **SUCCESS VALIDATION:**
-- **Technical**: 99.95% uptime, 20min self-healing
-- **Economic**: $8.5B annual return, <18mo payback
+
+> **Reviewed 2026.** "Validation" overstates these — they are **targets**, and the economic
+> pair does not survive a market-size check. The MN+WI+UP electricity market is
+> **$17.3B/yr**; an $8.5B annual return is **49% of it**, and an 18-month payback on the
+> $5B modular scope implies $3.3B/yr, or 19%. Both remain out of reach. The hex blob above
+> encodes the same superseded figures and has not been regenerated. See
+> [SCIENCE_UPDATE_2026.md](SCIENCE_UPDATE_2026.md).
+
+- **Technical**: 99.95% uptime target (unvalidated), 20min self-healing target
+- **Economic**: ~~$8.5B annual return, <18mo payback~~ — withdrawn. Derived congestion and
+  dispatch savings are **$0.5B–$1.4B/yr**; justify on reliability value, not energy savings
 - **Political**: Bipartisan support, rural job creation
 - **Expansion**: Replicable nationwide within 3 years

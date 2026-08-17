@@ -40,7 +40,11 @@
 
 ### 🇺🇸 MICHIGAN – *“Motor City Renaissance”*
 - Champions: Gov. Whitmer, Sen. Peters, Rep. Dingell
-- 500K new jobs | $85B economic impact
+- ~~500K new jobs | $85B economic impact~~ — **withdrawn 2026.** Both figures are
+  unsourced, and they exceed the whole-programme totals while describing a single state:
+  the derived construction employment for the entire three-state pilot is 165K–205K
+  sustained jobs, and $85B was the pilot's *total capital cost*, not one state's annual
+  impact. See [Economic_Impact.md](Economic_Impact.md).
 - EV supply chain from minerals to military
 
 ---

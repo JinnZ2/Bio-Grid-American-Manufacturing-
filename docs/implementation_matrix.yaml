@@ -3,7 +3,9 @@
 core_stack:
   - neural_hub:
       location: "Duluth-Superior"
-      spec: "500 H100 GPUs"
+      spec: "7 x GB200 NVL72 (504 Blackwell GPUs, 840-924 kW)"
+      spec_superseded: "500 H100 GPUs"        # updated 2026 — see docs/SCIENCE_UPDATE_2026.md
+      capex_usd: "29M-38M incl. facility"
       status: "Required"
       backup: true
 
@@ -78,8 +80,11 @@ deployment_phases:
 
 expansion_protocol:
   requires:
-    - reliability: "≥ 99.95%"
-    - energy_cost_reduction: "≥ 30%"
+    # Both thresholds below are DESIGN TARGETS, not validated results.
+    # Reliability has never been quantified for this project; do so with
+    # LBNL's ICE Calculator before treating it as a gate. See REFERENCES.md.
+    - reliability: "≥ 99.95% (target, unvalidated)"
+    - energy_cost_reduction: "≥ 30% (target, underived — 3-8% is the derived band)"
     - local_policy: "pre-approved"
     - public_approval: "≥ 60%"
   result: "greenlight Phase 4 (interstate expansion)"

@@ -1,7 +1,7 @@
 // Auto-generate Markdown project report from modular blueprint files
-import { blueprintCore } from '../technical/blueprint-core.js';
-import { mycelialNetwork } from '../technical/mycelial-network.js';
-import { systemIntegration } from '../technical/system-integration.js';
+import { blueprintCore } from '../src/technical/blueprint-core.js';
+import { mycelialNetwork } from '../src/technical/mycelial-network.js';
+import { systemIntegration } from '../src/technical/system-integration.js';
 import fs from 'fs';
 
 const output = [];

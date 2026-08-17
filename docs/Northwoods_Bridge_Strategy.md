@@ -28,8 +28,10 @@
 ### 🧠 Neural Controller Network
 
 **Primary Hub: Duluth–Superior**
-- 500 NVIDIA H100 GPUs
-- Lake-cooled AI processing
+- 7 × NVIDIA GB200 NVL72 — 504 Blackwell GPUs, 840–924 kW (updated 2026; supersedes
+  500 × H100 at ~25× the performance for comparable power)
+- Liquid-cooled (integrated DLC captures ~98% of heat); lake heat rejection needs a
+  thermal discharge permit before it is a design assumption
 - Iron Range workforce + research partners
 
 **Secondary Hubs:**
@@ -81,8 +83,10 @@
 - Manufacturing begins grid integration
 
 ### Year 5
-- 99.95% system reliability validation
-- 35% energy cost savings confirmed
+- 99.95% system reliability **target** — no reliability analysis exists yet; this is a
+  goal to be tested, not a milestone to be announced (quantify with LBNL ICE Calculator)
+- 35% energy cost savings **target** — the derived band is 3–8%; 35% would be ~$6B/yr
+  against a $17.3B/yr regional market
 - Winter + cyber resilience tests passed
 - National blueprint finalized
 
@@ -109,11 +113,19 @@
 
 ## 💰 Economic Impact
 
-### Investment Breakdown: $85B over 5 years
+### Investment Breakdown: $39.7B–$88.5B over 5 years (midpoint $64B)
 
-- Infrastructure: $45B
-- Technology: $25B
-- Workforce: $15B
+Re-derived 2026 from published cost benchmarks — run `python3 tools/derive_economics.py`.
+The previous $85B total falls inside the derived range, but its allocation did not survive.
+
+| | Previously | Derived |
+|---|---|---|
+| Infrastructure | $45B | **$31.4B – $61.3B** |
+| Technology | $25B | **$0.6B – $3.1B** |
+| Workforce | $15B | **$0.9B – $3.7B** |
+
+Underground transmission alone is $22.6B–$45.3B and dominates everything else. Full
+breakdown in [Economic_Impact.md](Economic_Impact.md).
 
 ### Job Creation
 
