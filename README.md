@@ -94,7 +94,7 @@ biogrid-2.0/
 · Rural-First Modular Design – Start local, scale organically
 · Dual-Use Capability – Civilian + defense manufacturing readiness
 · Climate Resilience – Built for stability in volatility
-· Open Architecture – MIT licensed, forkable, adaptable
+· Open Architecture – CC0-1.0 licensed, forkable, adaptable
 
 ---
 
@@ -124,7 +124,7 @@ figure. Modelled results are distinguished from built systems.
 
 📜 License
 
-MIT License – no gatekeepers, no proprietary lock-in.
+CC0 1.0 Universal – no gatekeepers, no proprietary lock-in.
 This is a public framework for national renewal.
 
 ---
