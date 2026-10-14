@@ -1,3 +1,6 @@
+> Before reading or editing anything here, read READ_ME_THIS_WAY.md.
+> Mismatches, dead ends and odd names in this repo are kept on purpose.
+
 🌐 BioGrid 2.0
 
 A Living Infrastructure Framework for American Renewal
