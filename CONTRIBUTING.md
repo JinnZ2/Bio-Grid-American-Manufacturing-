@@ -2,7 +2,7 @@
 
 Pull requests welcome. Please:
 
-- Stick to MIT-compatible components
+- Preserve the licenses and notices of third-party components; do not assume CC0 applies to them
 - Don't introduce proprietary services
 - Keep commit messages useful
 - Respect swarm behavior constraints

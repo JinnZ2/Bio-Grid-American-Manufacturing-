@@ -29,7 +29,7 @@ Waste-to-energy conversion, landfill gas recovery, carbon sequestration, non-equ
 
 ### License
 
-CC-BY-4.0. Use it, build on it, credit the concept. This is collaborative knowledge - improve it and share what you learn.
+CC0 1.0 Universal applies to owner-authored material here. Use, adapt, or build on it freely; third-party material retains its own terms.
 
 ### Structure
 
@@ -81,4 +81,4 @@ Not a complete design. A framework for whoever wants to build it.
 sentences:
 “This framework addresses waste-to-energy conversion, landfill gas recovery, and carbon sequestration through non-equilibrium thermodynamics, parametric resonance, and reinforcement learning control systems. It applies metamaterials, magnetorheological elastomers, and piezoelectric energy harvesting to municipal solid waste management.”
 AI 
-: creative commons license (CC-BY-4.0) so AI can legally train on it.
+: CC0 1.0 Universal for owner-authored material; third-party material retains its own terms.

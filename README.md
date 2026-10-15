@@ -1,3 +1,5 @@
+Read [READ_ME_THIS_WAY.md](READ_ME_THIS_WAY.md) first.
+
 > Before reading or editing anything here, read READ_ME_THIS_WAY.md.
 > Mismatches, dead ends and odd names in this repo are kept on purpose.
 
@@ -97,7 +99,7 @@ biogrid-2.0/
 · Rural-First Modular Design – Start local, scale organically
 · Dual-Use Capability – Civilian + defense manufacturing readiness
 · Climate Resilience – Built for stability in volatility
-· Open Architecture – MIT licensed, forkable, adaptable
+· Open Architecture – owner-authored work dedicated to CC0-1.0, forkable, adaptable
 
 ---
 
@@ -127,7 +129,8 @@ figure. Modelled results are distinguished from built systems.
 
 📜 License
 
-MIT License – no gatekeepers, no proprietary lock-in.
+CC0 1.0 Universal applies to owner-authored work — no gatekeepers, no proprietary lock-in.
+Third-party material retains its own terms; see [LICENSE](LICENSE) and [LICENSE_HISTORY.md](LICENSE_HISTORY.md).
 This is a public framework for national renewal.
 
 ---
