@@ -2,7 +2,7 @@
   "name": "bio-grid-american-manufacturing",
   "version": "0.1.0",
   "description": "A decentralized infrastructure framework for American manufacturing using bio-inspired distributed intelligence",
-  "license": "MIT",
+  "license": "CC0-1.0",
   "private": true,
   "scripts": {
     "test": "jest",

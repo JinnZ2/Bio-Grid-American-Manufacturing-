@@ -116,6 +116,7 @@ The 3D Energy Pod is the world’s first **living, volumetric energy community**
 **Repo Contact**: Anonymous Contributor  
 **Blueprint Auth**: [BioGrid Volumetric Implementation Group]  
 **License**: Open Prototype – Public Use Encouraged  
+> Note 2026-10-15: This file identifies an Anonymous Contributor and the BioGrid Volumetric Implementation Group. Ownership authority for this file is not established in this repository, so its existing license statement is retained and it is excluded from the repository owner's CC0 dedication pending confirmation.
 
 
             ☁️ SKY NETWORK ☁️

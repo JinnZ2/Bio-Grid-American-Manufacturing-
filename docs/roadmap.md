@@ -13,6 +13,7 @@ This is not a product release schedule — it's a blueprint for distributed evol
 - [x] Publish decoded strategic documentation
 - [x] Document risk landscape and grid philosophy
 - [x] Open source under MIT license
+> Note 2026-10-15: The MIT entry above is retained as a Phase I historical record. Current owner-authored work is dedicated to CC0 1.0 Universal; see [LICENSE](../LICENSE) and [LICENSE_HISTORY.md](../LICENSE_HISTORY.md).
 - [x] Validate architecture with zero-budget deployment ( done via phone)
 
 ---

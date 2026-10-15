@@ -114,3 +114,11 @@ must come from. Three of this project's headline economic claims failed that by 
 an order of magnitude — the constraint was the market, not the technology.
 
 It costs one division.
+
+## License scope (2026-10-15)
+
+The owner has dedicated **owner-authored** repository work to CC0 1.0 Universal;
+see [LICENSE](LICENSE) and [LICENSE_HISTORY.md](LICENSE_HISTORY.md). This does not
+relicense third-party dependencies, cited-source material, or any file whose ownership
+is unresolved. Preserve their existing terms and the intentionally retained historical
+statements in the guide and `legacy/` records.
